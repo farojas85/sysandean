@@ -16,7 +16,7 @@ class RoleUserSeeder extends Seeder
      */
     public function run()
     {
-        $roleMaster = Role::findByName('master');
+        $roleMaster = Role::findByName('Master');
 
         $userMaster = User::firstOrCreate([
             'nombre' => 'Masrer',

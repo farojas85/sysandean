@@ -33,8 +33,3 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('user', UserController::class);
 });
 
-Route::group(['middleware' => 'auth'], function(){
-    Route::get('usuario-habilitados', [UserController::class,'obtenerHabilitados'])->name('usuario.habilitados');
-    Route::get('usuario-tabla',[UserController::class,'mostrarTable'])->name('usuario.mostrar-tabla');
-});
-

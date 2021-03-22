@@ -6,6 +6,7 @@ var app= new Vue({
         errores:[],
         pagina_usuario:5,
         buscar_usuario:'',
+        rolesLista:[],
         usuarios:{},
         total_usuarios:0,
         show_usuarios:'habilitados',
@@ -16,6 +17,7 @@ var app= new Vue({
             email:'',
             password:'',
             estado:'',
+            role_id:'',
             estadoCrud:'nuevo'
         }
     },
@@ -51,9 +53,7 @@ var app= new Vue({
             this.vista = vista
             switch(this.vista)
             {
-                case 'Usuarios':
-                    this.listarUsuarios()
-                    this.getResultsUsuarios();break
+                case 'Usuarios':this.usuariosHabilitados();break;
             }
         },
         listarUsuarios() {
@@ -70,9 +70,32 @@ var app= new Vue({
                 this.total = this.usuarios.total
             });
         },
+        usuariosTodos()
+        {
+            this.show_usuarios = 'todos'
+            this.listarUsuarios()
+            this.getResultsUsuarios()
+        },
+        usuariosHabilitados()
+        {
+            this.show_usuarios = 'habilitados'
+            this.listarUsuarios()
+            this.getResultsUsuarios()
+        },
+        usuariosEliminados()
+        {
+            this.show_usuarios = 'eliminados'
+            this.listarUsuarios()
+            this.getResultsUsuarios()
+        },
         changePageUsuarios(page) {
             this.usuarios.current_page = page;
             this.getResultsUsuarios(page)
+        },
+        buscarUsuario()
+        {
+            this.listarUsuarios()
+            this.getResultsUsuarios()
         },
         limpiarUsuario()
         {
@@ -83,12 +106,21 @@ var app= new Vue({
             this.usuario.email=''
             this.usuario.password=''
             this.usuario.estado=1
-            this.usuario.estadoCrud='nuevo'
+            this.usuario.role_id=''
+        },
+        obtenerRoles()
+        {
+            axios.get('role-lista')
+            .then((respuesta)=>{
+                this.rolesLista = respuesta.data
+            })
         },
         nuevoUsuario()
         {
-            this.limpiarUsuario()        
-            $('#modal-usuario-title').html('Nuevo Usuario')
+            this.limpiarUsuario()
+            this.obtenerRoles()
+            this.usuario.estadoCrud='nuevo'
+            $('#modal-usuario-title').html('Nuevo Usuario')        
             $('#modal-usuario').modal('show')
         },
         guardarUsuario()
@@ -100,6 +132,7 @@ var app= new Vue({
                     Toast.fire({icon:'success','title' : respuesta.data.mensaje})
                     $('#modal-usuario').modal('hide')
                     this.errores=[]
+                    this.usuariosHabilitados()
                 }   
             })
             .catch((errors) => {
@@ -108,6 +141,167 @@ var app= new Vue({
                     console.clear()
                 }
             })
-        }
+        },
+        mostrarDatos(usuario)
+        {
+            axios.get('usuario-mostrar?id='+usuario)
+            .then(respuesta=>{                
+                let user = respuesta.data
+                this.usuario.id = user.id
+                this.usuario.nombre = user.nombre
+                this.usuario.usuario = user.usuario
+                this.usuario.email = user.email
+                this.usuario.role_id = user.role_id
+                this.usuario.estado = user.estado               
+            })
+        },
+        mostrarUsuario(usuario)
+        {
+            this.limpiarUsuario()
+            this.mostrarDatos(usuario)
+            this.usuario.estadoCrud = 'mostrar'
+            this.obtenerRoles()
+            $('#modal-mostrar-usuario').modal('show')
+        },
+        editarUsuario(usuario)
+        {
+            this.limpiarUsuario()
+            this.obtenerRoles()
+            this.mostrarDatos(usuario)
+            this.usuario.estadoCrud = 'editar'
+            $('#modal-usuario-title').html('Editar Usuario')        
+            $('#modal-usuario').modal('show')
+        },
+        eliminarUsuario(id) {
+            Swal.fire({
+                title:"USUARIO",
+                text:'¿Está Seguro de Eliminar el Usuario?',
+                icon:"question",
+                showCancelButton: true,
+                confirmButtonText:"<i class='fas fa-trash-alt'></i> A Papelera",
+                confirmButtonColor:"#6610f2",
+                cancelButtonText:"<i class='fas fa-eraser'></i> Permanentemente",
+                cancelButtonColor:"#e3342f"
+            }).then( (response) => {
+                if(response.value) {
+                    this.eliminarUsuarioTemporal(id)
+                }
+                else if( response.dismiss === swal.DismissReason.cancel) {
+                   this.eliminarUsuarioPermanente(id)
+                }
+            }).catch(error => {
+                swal.showValidationError(
+                    `Ocurrió un Error: ${error.response.status}`
+                )
+            })
+        },
+        eliminarUsuarioTemporal(id){
+            axios.post('usuario-eliminar-temporal',{id:id})
+            .then((response) => {
+                if(response.data.ok==1)
+                {
+                    Swal.fire({
+                        icon : 'success',
+                        title : 'Usuario',
+                        text : response.data.mensaje,
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor:"#1abc9c",
+                    }).then(respuesta => {
+                        if(respuesta.value) {
+                            this.usuariosHabilitados()
+                        }
+                    })
+                }
+            })
+            .catch((errors) => {
+                if(response = errors.response) {
+                    this.errores = response.data.errors
+                }
+            })
+        },
+        eliminarUsuarioPermanente(id) {
+            axios.post('usuario-eliminar-permanente',{id:id})
+            .then((response) => (
+                swal.fire({
+                    icon : 'success',
+                    title : 'USUARIOS',
+                    text : response.data.mensaje,
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor:"#1abc9c",
+                }).then(respuesta => {
+                    if(respuesta.value) {
+                        this.usuariosHabilitados()
+                    }
+                })
+            ))
+            .catch((errors) => {
+                if(response = errors.response) {
+                    this.errores = response.data.errors
+                    swal.fire({
+                        icon : 'error',
+                        title : 'USUARIOS',
+                        text : this.errores,
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor:"#1abc9c",
+                    })
+                }
+            })
+        },
+        restaurarUsuario(id) {
+            swal.fire({
+                title:"Usuario",
+                text:'¿Está Seguro de Restaurar el Usuario?"',
+                icon:"question",
+                showCancelButton: true,
+                confirmButtonText:"Si",
+                confirmButtonColor:"#28a745",
+                cancelButtonText:"No",
+                cancelButtonColor:"#dc3545"
+            }).then( (response) => {
+                if(response.value) {
+                    axios.post('usuario-restaurar',{id:id})
+                    .then((response) => {
+                        if(response.data.ok==1)
+                        {
+                            swal.fire({
+                                icon : 'success',
+                                title : 'Usuarios',
+                                text : response.data.mensaje,
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor:"#1abc9c",
+                            }).then(respuesta => {
+                                if(respuesta.value) {
+                                    this.usuariosHabilitados()
+                                }
+                            })
+
+                        }
+                    })
+                    .catch((errors) => {
+                        if(response = errors.response) {
+                            this.errores = response.data.errors
+                            swal.fire({
+                                icon : 'error',
+                                title : 'Usuarios',
+                                text : this.errores,
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor:"#1abc9c",
+                            })
+                        }
+                    })
+                }
+            }).catch((errors) => {
+                if(response = errors.response) {
+                    this.errores = response.data.errors
+                    swal.fire({
+                        icon : 'error',
+                        title : 'Usuario',
+                        text : this.errores,
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor:"#1abc9c",
+                    })
+                }
+            })
+        },
     }
 })

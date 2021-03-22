@@ -11,7 +11,7 @@
     <!-- /.card-header -->
     <div class="card-body" id="listado-usuarios">
         <div class="row">
-            <div class="col-md-12 mb-1 table-responsive">
+            <div class="col-md-12 mb-1">
                 <div class="input-group input-group-sm">
                     <div class="input-group-append">
                         <label class="col-form-label col-form-label-sm">Mostrar&nbsp;</label>
@@ -29,13 +29,14 @@
                         Filtros
                     </button>
                     <div class="dropdown-menu ">
-                        <a class="dropdown-item" href="#">Todos</a>
-                        <a class="dropdown-item" href="#" >Habilitados</a>
-                        <a class="dropdown-item" href="#" >Eliminados</a>
+                        <a class="dropdown-item" href="#" @click.prevent="usuariosTodos">Todos</a>
+                        <a class="dropdown-item" href="#" @click.prevent="usuariosHabilitados">Habilitados</a>
+                        <a class="dropdown-item" href="#" @click.prevent="usuariosEliminados">Eliminados</a>
                     </div>
                     &nbsp;
                     <input type="text" name="table-search" id="table-search"
-                        class="form-control"  placeholder="Buscar..." >
+                        class="form-control"  placeholder="Buscar..." v-model="buscar_usuario"
+                        @keyup.enter="buscarUsuario">
                     <div class="input-group-append">
                         <button type="button" class="btn btn-info">
                             <i class="fas fa-search"></i>
@@ -54,6 +55,7 @@
                                 <th>Nombre</th>
                                 <th>Usuario</th>
                                 <th>Correo</th>
+                                <th>Rol</th>
                                 <th>Estado</th>
                                 <th></th>
                             </tr>
@@ -67,13 +69,18 @@
                                 <td v-text="usuario.nombre"></td>
                                 <td v-text="usuario.usuario"></td>
                                 <td v-text="usuario.email"></td>
+                                <td class="text-center">
+                                    <span v-for="role in usuario.roles">
+                                        @{{ role.name }}
+                                    </span>
+                                </td>
                                 <td>
                                     <span :class="usuario.estado_clase">@{{usuario.estado_nombre }}</span>
                                 </td>
                                 <td>
                                     <template v-if="usuario.deleted_at">
                                         <button type="button" class="btn bg-purple btn-xs"
-                                                    title="Restaurar Usuario">
+                                                    title="Restaurar Usuario" @click="restaurarUsuario(usuario.id)">
                                             <i class="fas fa-trash-restore"></i>
                                         </button>
                                     </template>
@@ -83,11 +90,11 @@
                                             <i class="fa fa-eye"></i>
                                         </button>
                                         <button type="button" class="btn btn-warning btn-xs"
-                                                title="Editar Usuario">
+                                                title="Editar Usuario" @click="editarUsuario(usuario.id)">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button type="button" class="btn btn-danger btn-xs"
-                                                title="Eliminar Usuario">
+                                                title="Eliminar Usuario" @click="eliminarUsuario(usuario.id)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </template>
@@ -96,16 +103,6 @@
                         </tbody>
                     </table>
                 </div>
-            {{-- @if($usuarios->firstItem())
-                <ul class="pagination justify-content-center">
-                    @if ($usuarios->onFirstPage())
-                        <li class=" page-item disabled"><span class="page-link"><<</span></li>
-                    @else
-                        <li class="page-item"><a class="page-link" href="{{ $usuarios->previousPageUrl() }}" rel="prev">< Anterior</a></li>
-                    @endif
-                </ul>
-            @endif --}}
-                {{-- {{ $usuarios->links('vendor.pagination.bootstrap-4')}} --}}
             </div>
         </div>
         <div class="row">
@@ -148,5 +145,6 @@
     </div>
     <!-- /.card-body -->
 </div>
-@include('sistema.usuario.create')
+@include('sistema.usuario.form')
+@include('sistema.usuario.mostrar')
         
