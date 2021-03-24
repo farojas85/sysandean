@@ -7,6 +7,7 @@ var app= new Vue({
         pagina_usuario:5,
         buscar_usuario:'',
         rolesLista:[],
+        tipoDocumentosLista:[],
         usuarios:{},
         total_usuarios:0,
         show_usuarios:'habilitados',
@@ -18,6 +19,22 @@ var app= new Vue({
             password:'',
             estado:'',
             role_id:'',
+            estadoCrud:'nuevo'
+        },
+        pagina_trabajador:5,
+        buscar_trabajador:'',
+        trabajadores:{},
+        total_trabajadores:0,
+        show_trabajadores:'habilitados',
+        trabajador:{
+            id:'',
+            tipo_documento_id:'',
+            numero_documento:'',
+            nombres:'',
+            apellidos:'',
+            fecha_nacimiento:'',
+            lugar_nacimiento:'',
+            estado:'',
             estadoCrud:'nuevo'
         }
     },
@@ -47,6 +64,28 @@ var app= new Vue({
             }
             return pagesArray;
         },
+        isActivedTrabajador() {
+            return this.trabajadores.current_page;
+        },
+        pagesNumberTrabajador() {
+            if (!this.trabajadores.to) {
+                return [];
+            }
+            var from = this.trabajadores.current_page - this.offset;
+            if (from < 1) {
+                from = 1;
+            }
+            var to = from + (this.offset * 2);
+            if (to >= this.trabajadores.last_page) {
+                to = this.trabajadores.last_page;
+            }
+            var pagesArray = [];
+            while (from <= to) {
+                pagesArray.push(from);
+                from++;
+            }
+            return pagesArray;
+        },
     },
     methods:{
         cambiarVista(vista){
@@ -54,20 +93,27 @@ var app= new Vue({
             switch(this.vista)
             {
                 case 'Usuarios':this.usuariosHabilitados();break;
+                case 'Trabajadores':this.trabajadoresHabilitados();break;
             }
+        },
+        cambiarPaginacionUsuario(event)
+        {
+            this.pagina_usuario = event.target.value
+            this.listarUsuarios()
+            this.getResultsUsuarios()
         },
         listarUsuarios() {
             axios.get('usuario-'+this.show_usuarios+'?pagina='+this.pagina_usuario+'&buscar='+this.buscar_usuario)
             .then((respuesta) => {
                 this.usuarios=respuesta.data
-                this.total = this.usuarios.total
+                this.total_usuarios = this.usuarios.total
             })
         },
         getResultsUsuarios(page=1){
             axios.get('usuario-'+this.show_usuarios+'?page='+page+'&pagina='+this.pagina_usuario+'&buscar='+this.buscar_usuario)
             .then(response => {
                 this.usuarios = response.data
-                this.total = this.usuarios.total
+                this.total_usuarios = this.usuarios.total
             });
         },
         usuariosTodos()
@@ -296,6 +342,270 @@ var app= new Vue({
                     swal.fire({
                         icon : 'error',
                         title : 'Usuario',
+                        text : this.errores,
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor:"#1abc9c",
+                    })
+                }
+            })
+        },
+        obtenerTipoDocumentos()
+        {
+            axios.get('tipo-documento-lista')
+            .then((respuesta)=>{
+                this.tipoDocumentosLista = respuesta.data
+            })
+        },
+        cambiarPaginacionTrabajador(event)
+        {
+            this.pagina_trabajador = event.target.value
+            this.listarTrabajadores()
+            this.getResultsTrabajadores()
+        },
+        listarTrabajadores() {
+            axios.get('trabajador-'+this.show_trabajadores+'?pagina='+this.pagina_trabajador+'&buscar='+this.buscar_trabajador)
+            .then((respuesta) => {
+                this.trabajadores=respuesta.data
+                this.total_trabajadores = this.trabajadores.total
+            })
+        },
+        getResultsTrabajadores(page=1){
+            axios.get('trabajador-'+this.show_trabajadores+'?page='+page+'&pagina='+this.pagina_trabajador+'&buscar='+this.buscar_trabajador)
+            .then(response => {
+                this.trabajadores = response.data
+                this.total_trabajadores = this.trabajadores.total
+            });
+        },
+        trabajadoresTodos()
+        {
+            this.show_trabajadores = 'todos'
+            this.listarTrabajadores()
+            this.getResultstrabajadores()
+        },
+        trabajadoresHabilitados()
+        {
+            this.show_trabajadores = 'habilitados'
+            this.listarTrabajadores()
+            this.getResultsTrabajadores()
+        },
+        trabajadoresEliminados()
+        {
+            this.show_trabajadores = 'eliminados'
+            this.listarTrabajadores()
+            this.getResultsTrabajadores()
+        },
+        changePageTrabajadores(page) {
+            this.trabajadores.current_page = page;
+            this.getResultsTrabajadores(page)
+        },
+        limpiarTrabajador()
+        {
+            this.errores=[]
+            this.trabajador.id=''
+            this.trabajador.tipo_documento_id=''
+            this.trabajador.numero_documento=''
+            this.trabajador.nombres=''
+            this.trabajador.apellidos=''
+            this.trabajador.fecha_nacimiento=''
+            this.trabajador.lugar_nacimiento=''
+            this.trabajador.estado=1
+        },
+        nuevoTrabajador()
+        {
+            this.limpiarTrabajador()
+            this.obtenerTipoDocumentos()
+            this.trabajador.estadoCrud='nuevo'
+            $('#modal-trabajador-title').html('Nuevo Trabajador')        
+            $('#modal-trabajador').modal('show')
+        },
+        validarDocumento()
+        {
+            axios.get('trabajador-validar-documento',{params: this.trabajador})
+            .then((respuesta) =>{
+                this.errores=[]
+            })
+            .catch((errors) => {
+                if(response = errors.response) {
+                    this.errores = response.data.errors
+                    console.clear()
+                }
+            })
+        },
+        guardarTrabajador()
+        {
+            axios.post('trabajador',this.trabajador)
+            .then((respuesta) =>{
+                if(respuesta.data.ok==1)
+                {
+                    Toast.fire({icon:'success','title' : respuesta.data.mensaje})
+                    $('#modal-trabajador').modal('hide')
+                    this.errores=[]
+                    this.trabajadoresHabilitados()
+                }   
+            })
+            .catch((errors) => {
+                if(response = errors.response) {
+                    this.errores = response.data.errors
+                    //console.clear()
+                }
+            })
+        },
+        mostrarDatosTrabajador(trabajador)
+        {
+            axios.get('trabajador-mostrar?id='+trabajador)
+            .then(respuesta=>{                
+                let trab = respuesta.data
+                this.trabajador.id = trab.id
+                this.trabajador.tipo_documento_id = trab.tipo_documento_id
+                this.trabajador.numero_documento = trab.numero_documento
+                this.trabajador.nombres = trab.nombres
+                this.trabajador.apellidos = trab.apellidos
+                this.trabajador.fecha_nacimiento = trab.fecha_nacimiento
+                this.trabajador.lugar_nacimiento = trab.lugar_nacimiento
+                this.trabajador.estado = trab.estado               
+            })
+        },
+        mostrarTrabajador(trabajador)
+        {
+            this.limpiarTrabajador()
+            this.mostrarDatosTrabajador(trabajador)
+            this.trabajador.estadoCrud = 'mostrar'
+            this.obtenerTipoDocumentos()
+            $('#modal-mostrar-trabajador').modal('show')
+        },
+        editarTrabajador(trabajador)
+        {
+            this.limpiarTrabajador()
+            this.obtenerTipoDocumentos()
+            this.mostrarDatosTrabajador(trabajador)
+            this.trabajador.estadoCrud = 'editar'
+            $('#modal-trabajador-title').html('Editar Trabajador')        
+            $('#modal-trabajador').modal('show')
+        },
+        eliminarTrabajador(id) {
+            Swal.fire({
+                title:"Trabajador",
+                text:'¿Está Seguro de Eliminar el Usuario?',
+                icon:"question",
+                showCancelButton: true,
+                confirmButtonText:"<i class='fas fa-trash-alt'></i> A Papelera",
+                confirmButtonColor:"#6610f2",
+                cancelButtonText:"<i class='fas fa-eraser'></i> Permanentemente",
+                cancelButtonColor:"#e3342f"
+            }).then( (response) => {
+                if(response.value) {
+                    this.eliminarTrabajadorTemporal(id)
+                }
+                else if( response.dismiss === swal.DismissReason.cancel) {
+                   this.eliminarTrabajadorPermanente(id)
+                }
+            }).catch(error => {
+                swal.showValidationError(
+                    `Ocurrió un Error: ${error.response.status}`
+                )
+            })
+        },
+        eliminarTrabajadorTemporal(id){
+            axios.post('trabajador-eliminar-temporal',{id:id})
+            .then((response) => {
+                if(response.data.ok==1)
+                {
+                    Swal.fire({
+                        icon : 'success',
+                        title : 'Trabajador',
+                        text : response.data.mensaje,
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor:"#1abc9c",
+                    }).then(respuesta => {
+                        if(respuesta.value) {
+                            this.trabajadoresHabilitados()
+                        }
+                    })
+                }
+            })
+            .catch((errors) => {
+                if(response = errors.response) {
+                    this.errores = response.data.errors
+                }
+            })
+        },
+        eliminarTrabajadorPermanente(id) {
+            axios.post('trabajador-eliminar-permanente',{id:id})
+            .then((response) => (
+                swal.fire({
+                    icon : 'success',
+                    title : 'Trabajadores',
+                    text : response.data.mensaje,
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor:"#1abc9c",
+                }).then(respuesta => {
+                    if(respuesta.value) {
+                        this.trabajadoresHabilitados()
+                    }
+                })
+            ))
+            .catch((errors) => {
+                if(response = errors.response) {
+                    this.errores = response.data.errors
+                    swal.fire({
+                        icon : 'error',
+                        title : 'Trabajadores',
+                        text : this.errores,
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor:"#1abc9c",
+                    })
+                }
+            })
+        },
+        restaurarTrabajador(id) {
+            swal.fire({
+                title:"Trabajador",
+                text:'¿Está Seguro de Restaurar el Usuario?"',
+                icon:"question",
+                showCancelButton: true,
+                confirmButtonText:"Si",
+                confirmButtonColor:"#28a745",
+                cancelButtonText:"No",
+                cancelButtonColor:"#dc3545"
+            }).then( (response) => {
+                if(response.value) {
+                    axios.post('trabajador-restaurar',{id:id})
+                    .then((response) => {
+                        if(response.data.ok==1)
+                        {
+                            swal.fire({
+                                icon : 'success',
+                                title : 'Trabajadores',
+                                text : response.data.mensaje,
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor:"#1abc9c",
+                            }).then(respuesta => {
+                                if(respuesta.value) {
+                                    this.trabajadoresHabilitados()
+                                }
+                            })
+
+                        }
+                    })
+                    .catch((errors) => {
+                        if(response = errors.response) {
+                            this.errores = response.data.errors
+                            swal.fire({
+                                icon : 'error',
+                                title : 'Trabajadores',
+                                text : this.errores,
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor:"#1abc9c",
+                            })
+                        }
+                    })
+                }
+            }).catch((errors) => {
+                if(response = errors.response) {
+                    this.errores = response.data.errors
+                    swal.fire({
+                        icon : 'error',
+                        title : 'Trabajadores',
                         text : this.errores,
                         confirmButtonText: 'Aceptar',
                         confirmButtonColor:"#1abc9c",

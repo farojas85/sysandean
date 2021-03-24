@@ -67,7 +67,7 @@
                     </button> 
                     &nbsp;
                     <button type="button" class="btn btn-danger" id="btn-cerrar" data-dismiss="modal">
-                        <i class="mdi mdi-close "></i> Cerrar
+                        <i class="fas fa-times"></i> Cerrar
                     </button>
                 </div>
             </div>

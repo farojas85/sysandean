@@ -98,6 +98,7 @@ trait UserTrait
                 'role_id' => 'required'
             ];
         }
+        
         $mensaje = [
             'required' =>'* Campo Obligatorio',
             'unique' =>'Dato ya Existe',

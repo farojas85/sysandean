@@ -16,7 +16,7 @@
                     <div class="input-group-append">
                         <label class="col-form-label col-form-label-sm">Mostrar&nbsp;</label>
                         <select class="custom-select custom-select-sm form-control form-control-sm"
-                                v-model="pagina_usuario" >
+                                v-model="pagina_usuario" @change="cambiarPaginacionUsuario" >
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="25">25</option>
@@ -61,8 +61,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="total_usuarios=0">
-                                <td class="text-center text-danger">-- Datos No Registrados --</td>
+                            <tr v-if="total_usuarios==0">
+                                <td class="text-center text-danger" colspan="7">-- Datos No Registrados --</td>
                             </tr>
                             <tr v-else v-for="(usuario,fila) in usuarios.data">
                                 <td class="text-center">@{{ usuarios.from + fila }}</td>
