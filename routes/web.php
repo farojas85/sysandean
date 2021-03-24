@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MateriaPrimaController;
 use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\UserController;
@@ -33,5 +34,6 @@ Route::group(['prefix' => 'sistema', 'middleware' => 'auth'], function(){
 Route::group(['middleware' => 'auth'], function() {
     Route::resource('user', UserController::class);
     Route::resource('trabajador', TrabajadorController::class);
+    Route::resource('materia-prima', MateriaPrimaController::class);
 });
 

@@ -145,7 +145,5 @@ trait UserTrait
             'ok'=> 1,
             'mensaje' => 'Datos de Usuario modificados Satisfactoriamente' 
         ],200);
-
-       
     }
 }
