@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\MateriaPrimaController;
+use App\Http\Controllers\LoteController;
 
 Route::group(['middleware' => 'auth'], function(){
     //MATERIA PRIMA
@@ -14,4 +15,15 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('materia-prima-eliminar-temporal',[MateriaPrimaController::class,'destroyTemporal'])->name('materia-prima.eliminar-temporal');
     Route::post('materia-prima-eliminar-permanente',[MateriaPrimaController::class,'destroyPermanente'])->name('materia-prima.eliminar-permanente');
     Route::post('materia-prima-restaurar',[MateriaPrimaController::class,'restaurar'])->name('materia-prima.restaurar');
+
+    //LOTES
+    Route::get('materia-prima-buscar',[LoteController::class,'buscarMateriaPrima'])->name('materia-prima-buscar.buscar-materia');
+    Route::get('lote-todos', [LoteController::class,'todos'])->name('lote.todos');
+    Route::get('lote-habilitados', [LoteController::class,'habilitados'])->name('lote.habilitados');
+    Route::get('lote-eliminados', [LoteController::class,'eliminados'])->name('lote.eliminados');
+    Route::get('lote-mostrar', [LoteController::class,'mostrar'])->name('lote.mostrar');
+    Route::get('lote-tabla',[LoteController::class,'mostrarTable'])->name('lote.mostrar-tabla');
+    Route::post('lote-eliminar-temporal',[LoteController::class,'destroyTemporal'])->name('lote.eliminar-temporal');
+    Route::post('lote-eliminar-permanente',[LoteController::class,'destroyPermanente'])->name('lote.eliminar-permanente');
+    Route::post('lote-restaurar',[LoteController::class,'restaurar'])->name('lote.restaurar');
 });

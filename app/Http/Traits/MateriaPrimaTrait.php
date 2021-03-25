@@ -58,8 +58,6 @@ trait MateriaPrimaTrait
 
     public function guardarMateriaPrima(Request $request)
     {
-        $reglas = [];
-
         $reglas=[
             'nombre' =>'required',
          ];

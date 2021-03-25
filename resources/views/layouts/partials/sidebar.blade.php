@@ -38,7 +38,7 @@
                 {{-- <li class="nav-header">NAVEGACI&Oacute;N</li> --}}
                 <li class="nav-item">
                     <a href="home" class="nav-link {{ Request::is('home') ? 'active' :''}}">
-                        <i class="nav-icon fas fa-th text-info"></i>
+                        <i class="nav-icon fas fa-th text-warning"></i>
                         <p>
                            Inicio
                         </p>
@@ -53,16 +53,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="materia-prima" class="nav-link">
-                        <i class="nav-icon fas fa-box text-blue"></i>
+                    <a href="materia-prima" class="nav-link  {{ Request::is('materia-prima') ? 'active' :''}}">
+                        <i class="nav-icon fas fa-box text-green"></i>
                         <p>
                            Materia Prima
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="home" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="lote" class="nav-link">
+                        <i class="nav-icon fas fa-clone text-pink"></i>
                         <p>
                            Lote
                         </p>
