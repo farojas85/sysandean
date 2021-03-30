@@ -53,7 +53,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="materia-prima" class="nav-link  {{ Request::is('materia-prima') ? 'active' :''}}">
+                    <a href="materia-prima" class="nav-link {{ Request::is('materia-prima') ? 'active' :''}}">
                         <i class="nav-icon fas fa-box text-green"></i>
                         <p>
                            Materia Prima
@@ -61,7 +61,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="lote" class="nav-link">
+                    <a href="lote" class="nav-link {{ Request::is('lote') ? 'active' :''}}">
                         <i class="nav-icon fas fa-clone text-pink"></i>
                         <p>
                            Lote
@@ -69,7 +69,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="pelado-quimico" class="nav-link">
+                    <a href="pelado-quimico" class="nav-link {{ Request::is('pelado-quimico') ? 'active' :''}}">
                         <i class="nav-icon fas fa-carrot text-orange"></i>
                         <p>
                            Pelado Qu&iacute;mico
@@ -77,7 +77,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="home" class="nav-link">
+                    <a href="rectificado" class="nav-link">
                         <i class="nav-icon fas fa-swimming-pool text-info"></i>
                         <p>
                            Rectificado

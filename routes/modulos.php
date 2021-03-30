@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MateriaPrimaController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PeladoQuimicoController;
+use App\Http\Controllers\RectificadoController;
 
 Route::group(['middleware' => 'auth'], function(){
     //MATERIA PRIMA
@@ -38,4 +39,15 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('pelado-quimico-eliminar-temporal',[PeladoQuimicoController::class,'destroyTemporal'])->name('pelado-quimico.eliminar-temporal');
     Route::post('pelado-quimico-eliminar-permanente',[PeladoQuimicoController::class,'destroyPermanente'])->name('pelado-quimico.eliminar-permanente');
     Route::post('pelado-quimico-restaurar',[PeladoQuimicoController::class,'restaurar'])->name('pelado-quimico.restaurar');
+
+    //RECTIFICADOS
+    Route::get('lote-buscar',[RectificadoController::class,'buscarLote'])->name('rectificado-buscar.buscar-lote');
+    Route::get('rectificado-todos', [RectificadoController::class,'todos'])->name('rectificado.todos');
+    Route::get('rectificado-habilitados', [RectificadoController::class,'habilitados'])->name('rectificado.habilitados');
+    Route::get('rectificado-eliminados', [RectificadoController::class,'eliminados'])->name('rectificado.eliminados');
+    Route::get('rectificado-mostrar', [RectificadoController::class,'mostrar'])->name('rectificado.mostrar');
+    Route::get('rectificado-tabla',[RectificadoController::class,'mostrarTable'])->name('rectificado.mostrar-tabla');
+    Route::post('rectificado-eliminar-temporal',[RectificadoController::class,'destroyTemporal'])->name('rectificado.eliminar-temporal');
+    Route::post('rectificado-eliminar-permanente',[RectificadoController::class,'destroyPermanente'])->name('rectificado.eliminar-permanente');
+    Route::post('rectificado-restaurar',[RectificadoController::class,'restaurar'])->name('rectificado.restaurar');
 });

@@ -31,4 +31,14 @@ class Lote extends Model
     {
         return $this->hasMany(PeladoQuimico::class);
     }
+
+    /**
+     * Get all of the rectificados for the Lote
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rectificados(): HasMany
+    {
+        return $this->hasMany(Rectificado::class);
+    }
 }

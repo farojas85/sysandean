@@ -9,7 +9,7 @@ use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PeladoQuimicoController;
-use App\Models\PeladoQuimico;
+use App\Http\Controllers\RectificadoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,5 +40,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('materia-prima', MateriaPrimaController::class);
     Route::resource('lote', LoteController::class);
     Route::resource('pelado-quimico', PeladoQuimicoController::class);
+    Route::resource('rectificado', RectificadoController::class);
 });
 

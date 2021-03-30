@@ -126,6 +126,43 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <nav>
+                    <ul class="pagination">
+                        <li v-if="peladoQuimicos.current_page >=2" class="page-item">
+                            <a href="" aria-label="First" class="page-link"
+                            @click.prevent="changePage(0)">
+                                <span><i class="fas fa-fast-backward"></i></span>
+                            </a>
+                        </li>
+                        <li v-if="peladoQuimicos.current_page > 1" class="page-item">
+                            <a href="" aria-label="Previous" class="page-link"
+                            @click.prevent="changePage(peladoQuimicos.current_page - 1)">
+                                <span><i class="fas fa-backward"></i></span>
+                            </a>
+                        </li>
+                        <li v-for="page in pagesNumber" class="page-item"
+                            v-bind:class="[ page == isActived ? 'active' : '']">
+                            <a href="" class="page-link"
+                                @click.prevent="changePage(page)">@{{ page }}</a>
+                        </li>
+                        <li v-if="peladoQuimicos.current_page < peladoQuimicos.last_page" class="page-item">
+                            <a href="" aria-label="Next" class="page-link"
+                                @click.prevent="changePage(peladoQuimicos.current_page + 1)">
+                                <span aria-hidden="true"><i class="fas fa-forward"></i></span>
+                            </a>
+                        </li>
+                        <li v-if="peladoQuimicos.current_page < peladoQuimicos.last_page-1" class="page-item">
+                            <a href="" aria-label="Last" class="page-link"
+                                @click.prevent="changePage(peladoQuimicos.last_page)">
+                                <span aria-hidden="true"><i class="fas fa-fast-forward"></i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
 </div>
 
