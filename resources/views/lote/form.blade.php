@@ -153,7 +153,6 @@
                     @{{ ( lote.estadoCrud == 'nuevo' ? 'Guardar' : 'Actualizar')}}
                 </button> 
             </div>
-            </div>
         </div>
     </div>
 </div>

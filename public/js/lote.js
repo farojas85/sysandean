@@ -163,26 +163,35 @@ var app= new Vue({
         {
             axios.get('lote-mostrar?id='+lote)
             .then(respuesta=>{                
-                let materia = respuesta.data
-                this.lote.id = materia.id
-                this.lote.nombre = materia.nombre
-                this.lote.descripcion = materia.descripcion    
+                let lote = respuesta.data
+                this.lote.id = lote.id
+                this.lote.nombre = lote.nombre
+                this.lote.materia_prima_id=lote.materia_prima.id
+                this.lote.materia_prima_nombre=lote.materia_prima.nombre
+                this.lote.kilogramo=lote.kilogramo
+                this.lote.descripcion = lote.descripcion
+                this.lote.fecha_registro=lote.fecha_registro
+                this.lote.maduros=lote.maduros
+                this.lote.pinton=lote.pinton
+                this.lote.verde=lote.verde
+                this.lote.podrido=lote.podrido
+                this.lote.enanas=lote.enanas
             })
         },
         mostrar(lote)
         {
-            // this.limpiar()
-            // this.mostrarDatos(lote)
-            // this.lote.estadoCrud = 'mostrar'
-            // $('#modal-lote-mostrar').modal('show')
+            this.limpiar()
+            this.mostrarDatos(lote)
+            this.lote.estadoCrud = 'mostrar'
+            $('#modal-lote-mostrar').modal('show')
         },
         editar(lote)
         {
-            // this.limpiar()
-            // this.mostrarDatos(lote)
-            // this.lote.estadoCrud = 'editar'
-            // $('#modal-lote-title').html('Editar Lote')        
-            // $('#modal-lote').modal('show')
+            this.limpiar()
+            this.mostrarDatos(lote)
+            this.lote.estadoCrud = 'editar'
+            $('#modal-lote-title').html('Editar Lote')        
+            $('#modal-lote').modal('show')
         },
         eliminar(id) {
             // Swal.fire({

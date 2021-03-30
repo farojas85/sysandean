@@ -54,6 +54,12 @@ class LoteController extends Controller
         //
     }
 
+    public function mostrar(Request $request)
+    {
+        $lote = Lote::with('materia_prima')->findOrFail($request->id);
+        return $lote;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
