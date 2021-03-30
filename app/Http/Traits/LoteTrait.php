@@ -18,10 +18,15 @@ trait LoteTrait
     {
         $buscar = mb_strtoupper($request->buscar);
         return Lote::with('materia_prima:id,nombre')->select(
-                        'id','nombre','descripcion','deleted_at',
-                        DB::Raw("DATE_FORMAT(created_at,'%d/%m/%Y') as fecha_creada"),
-                        DB::Raw("DATE_FORMAT(updated_at,'%d/%m/%Y') as fecha_modificada")
-                        )
+                        'id','materia_prima_id','kilogramo','descripcion','nombre','deleted_at',
+                        DB::Raw("DATE_FORMAT(fecha_registro,'%d/%m/%Y') as fecha"),
+                        'maduros','pinton','verde','podrido','enanas',
+                        DB::Raw("maduros/kilogramo*100 as maduros_lote"),
+                        DB::Raw("pinton/kilogramo*100 as pinton_lote"),
+                        DB::Raw("verde/kilogramo*100 as verde_lote"),
+                        DB::Raw("podrido/kilogramo*100 as podrido_lote"),
+                        DB::Raw("enanas/kilogramo*100 as enanas_lote")
+                    )
                     ->where(function($query) use($buscar){
                         $query->where(DB::Raw("upper(nombre)"),'like','%'.$buscar.'%')
                             ->orWhere(DB::Raw("upper(descripcion)"),'like','%'.$buscar.'%');
@@ -52,10 +57,15 @@ trait LoteTrait
     {
         $buscar = mb_strtoupper($request->buscar);
         return Lote::with('materia_prima:id,nombre')->select(
-                    'id','nombre','descripcion','deleted_at',
-                    DB::Raw("DATE_FORMAT(created_at,'%d/%m/%Y') as fecha_creada"),
-                    DB::Raw("DATE_FORMAT(updated_at,'%d/%m/%Y') as fecha_modificada")
-                    )
+                    'id','materia_prima_id','kilogramo','descripcion','nombre','deleted_at',
+                    DB::Raw("DATE_FORMAT(fecha_registro,'%d/%m/%Y') as fecha"),
+                    'maduros','pinton','verde','podrido','enanas',
+                    DB::Raw("maduros/kilogramo*100 as maduros_lote"),
+                    DB::Raw("pinton/kilogramo*100 as pinton_lote"),
+                    DB::Raw("verde/kilogramo*100 as verde_lote"),
+                    DB::Raw("podrido/kilogramo*100 as podrido_lote"),
+                    DB::Raw("enanas/kilogramo*100 as enanas_lote")
+                )
                 ->where(function($query) use($buscar){
                     $query->where(DB::Raw("upper(nombre)"),'like','%'.$buscar.'%')
                         ->orWhere(DB::Raw("upper(descripcion)"),'like','%'.$buscar.'%');

@@ -31,7 +31,6 @@
                                                     <i class="fas fa-search"></i>
                                                 </button>
                                             </div>
-                                            {{-- <input type="text" class="form-control" placeholder="Username"> --}}
                                           </div>
                                         <small class="text-danger font-weight-bold" v-for="error in errores.materia_prima_id">@{{ error }}</small>
                                     </div>

@@ -38,7 +38,7 @@
                 {{-- <li class="nav-header">NAVEGACI&Oacute;N</li> --}}
                 <li class="nav-item">
                     <a href="home" class="nav-link {{ Request::is('home') ? 'active' :''}}">
-                        <i class="nav-icon fas fa-th text-warning"></i>
+                        <i class="nav-icon fas fa-th"></i>
                         <p>
                            Inicio
                         </p>
@@ -46,7 +46,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="sistema" class="nav-link {{ Request::is('sistema') ? 'active' :''}}">
-                        <i class="nav-icon fas fa-cogs text-orange"></i>
+                        <i class="nav-icon fas fa-cogs text-warning"></i>
                         <p>
                            Sistema
                         </p>
@@ -69,8 +69,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="home" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="pelado-quimico" class="nav-link">
+                        <i class="nav-icon fas fa-carrot text-orange"></i>
                         <p>
                            Pelado Qu&iacute;mico
                         </p>
@@ -78,7 +78,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="home" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-swimming-pool text-info"></i>
                         <p>
                            Rectificado
                         </p>

@@ -20,7 +20,7 @@ var app= new Vue({
         this.habilitados()
     },
     computed:{
-        isActivate() {
+        isActived() {
             return this.materiaPrimas.current_page;
         },
         pagesNumber() {
@@ -88,7 +88,8 @@ var app= new Vue({
         },
         buscar()
         {
-
+            this.listar()
+            this.getResults()
         },
         limpiar()
         {

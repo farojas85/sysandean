@@ -103,4 +103,40 @@ class LoteController extends Controller
                 ->orWhere(DB::Raw("upper(descripcion)"),'like','%'.$busqueda.'%')
                 ->paginate(5);
     }
+
+    public function destroyPermanente(Request $request)
+    {
+        $lote = Lote::withTrashed()->where('id',$request->id)->first();
+
+        //eliminamos al materiaPr$lote de la base de datos
+        $lote->forceDelete();
+
+        return response()->json([
+            'ok' => 1,
+            'lote' =>$lote,
+            'mensaje' => 'Registro de Lote ha sido eliminado Satisfactoriamente'
+        ]);
+    }
+
+    public function destroyTemporal(Request $request)
+    {
+       $lote = lote::withTrashed()->where('id',$request->id)->first()->delete();
+
+        return response()->json([
+            'ok' => 1,
+            'lote' =>$lote,
+            'mensaje' => 'Registro de Lote ha sido enviado a Papelera de Reciclaje'
+        ]);
+    }
+
+    public function restaurar(Request $request) {
+        $lote = Lote::onlyTrashed()
+                         ->where('id',$request->id)->first()->restore();
+
+         return response()->json([
+             'ok' =>1,
+             'lote' =>$lote,
+             'mensaje' => 'Registro de Lote ha sido restaurado Satisfactoriamente'
+         ]);
+    }
 }

@@ -8,6 +8,8 @@ use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoteController;
+use App\Http\Controllers\PeladoQuimicoController;
+use App\Models\PeladoQuimico;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,5 +39,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('trabajador', TrabajadorController::class);
     Route::resource('materia-prima', MateriaPrimaController::class);
     Route::resource('lote', LoteController::class);
+    Route::resource('pelado-quimico', PeladoQuimicoController::class);
 });
 
