@@ -6,6 +6,7 @@ use App\Http\Controllers\MateriaPrimaController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PeladoQuimicoController;
 use App\Http\Controllers\RectificadoController;
+use App\Http\Controllers\TrabajadorController;
 
 Route::group(['middleware' => 'auth'], function(){
     //MATERIA PRIMA
@@ -41,7 +42,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('pelado-quimico-restaurar',[PeladoQuimicoController::class,'restaurar'])->name('pelado-quimico.restaurar');
 
     //RECTIFICADOS
-    Route::get('lote-buscar',[RectificadoController::class,'buscarLote'])->name('rectificado-buscar.buscar-lote');
+    Route::get('trabajador-listar',[TrabajadorController::class,'listar'])->name('trabajador.listar');
     Route::get('rectificado-todos', [RectificadoController::class,'todos'])->name('rectificado.todos');
     Route::get('rectificado-habilitados', [RectificadoController::class,'habilitados'])->name('rectificado.habilitados');
     Route::get('rectificado-eliminados', [RectificadoController::class,'eliminados'])->name('rectificado.eliminados');

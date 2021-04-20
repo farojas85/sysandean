@@ -90,6 +90,8 @@
         </div>
     </div>
 </div>
+@include('rectificado.form')
+@include('rectificado.mostrar')
 @endsection
 
 @section('scripties')

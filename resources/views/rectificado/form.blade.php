@@ -10,10 +10,10 @@
             <div class="modal-body" id="modal-rectificado-body">
                 <div class="form-group row">
                     <label for="" class='col-md-1 col-form-label col-form-label-sm'>Lote</label>
-                    <div class="col-md-9">
+                    <div class="col-md-10">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control form-control-sm" :class="{ 'is-invalid' : errores.materia_prima_id }" placeholder="Buscar Materia Prima"
-                            v-model="peladoQuimico.lote_nombre" @change="buscarLotes" />
+                            <input type="text" class="form-control form-control-sm" :class="{ 'is-invalid' : errores.materia_prima_id }" placeholder="Buscar Lote"
+                            v-model="rectificado.lote_nombre" @change="buscarLotes" />
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-info btn-xs">
                                     <i class="fas fa-search"></i>
@@ -47,6 +47,30 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class='col-md-3 col-form-label col-form-label-sm'>Kg. Rectificado</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control form-control-sm" placeholder="Ingrese Kilogramos Rectificados"
+                            v-model="rectificado.kilogramo_rectificado" :class="{ 'is-invalid' : errores.kilogramo_rectificado }" />
+                        <small class="text-danger font-weight-bold" v-for="error in errores.kilogramo_rectificado">@{{ error }}</small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class='col-md-3 col-form-label col-form-label-sm' title="Fecha Registro">Fecha Registro</label>
+                    <div class="col-md-8 ">
+                        <input type="date" class="form-control form-control-sm" placeholder="Seleccione Fecha"
+                            v-model="rectificado.fecha_registro" :class="{ 'is-invalid' : errores.fecha_registro }"/>
+                        <small class="text-danger font-weight-bold" v-for="error in errores.fecha_registro">@{{ error }}</small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class='col-md-3 col-form-label col-form-label-sm' title="Fecha Registro">Trabajador</label>
+                    <div class="col-md-8 ">
+                        <input type="date" class="form-control form-control-sm" placeholder="Seleccione Fecha"
+                            v-model="rectificado.fecha_registro" :class="{ 'is-invalid' : errores.fecha_registro }"/>
+                        <small class="text-danger font-weight-bold" v-for="error in errores.fecha_registro">@{{ error }}</small>
                     </div>
                 </div>
             </div>

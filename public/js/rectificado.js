@@ -9,17 +9,12 @@ var app= new Vue({
         rectificados:{},
         rectificado:{
             id:'',
-            nombre:'',
-            materia_prima_id:'',
-            materia_prima_nombre:'',
-            kilogramo:'',
-            descripcion:'',
+            lote_id:'',
+            lote_nombre:'',
+            kilogramo_rectificado:'',
+            observacion:'',
             fecha_registro:'',
-            maduros:'',
-            pinton:'',
-            verde:'',
-            podrido:'',
-            enanas:'',
+            trabajador_id:'',
             estadoCrud:'nuevo'
         },
         lotes:[],
@@ -105,41 +100,39 @@ var app= new Vue({
         limpiar()
         {
             this.errores=[]
-            this.lote.id = ''
-            this.lote.nombre=''
-            this.lote.materia_prima_id='',
-            this.lote.materia_prima_nombre=''
-            this.lote.kilogramo=''
-            this.lote.descripcion=''
-            this.lote.fecha_registro=''
-            this.lote.maduros=''
-            this.lote.pinton=''
-            this.lote.verde=''
-            this.lote.podrido=''
-            this.lote.enanas=''
+            this.rectificado.id = ''
+            this.rectificado.lote_id='',
+            this.rectificado.lote_nombre=''
+            this.rectificado.kilogramo=''
+            this.rectificado.observacion=''
+            this.rectificado.fecha_registro=''
+        },
+        listarTrabajadores()
+        {
+
         },
         nuevo()
         {
             this.limpiar()
-            this.lote.estadoCrud = 'nuevo'
-            $('#modal-lote').modal('show')
+            this.rectificado.estadoCrud = 'nuevo'
+            $('#modal-rectificado').modal('show')
         },
-        buscarMateriaPrimas(event)
+        buscarLotes(event)
         {
-            this.materiaPrimas=[]
-            this.materiaPrimas_count = 0
-            axios.get('materia-prima-buscar',{params:{buscar_materia: event.target.value}})
+            this.lotes=[]
+            this.lotes_count = 0
+            axios.get('lote-buscar',{params:{buscar_lote: event.target.value}})
             .then((respuesta)=>{
-                this.materiaPrimas= respuesta.data
-                this.materiaPrimas_count = ( this.materiaPrimas.total >0) ?  2 : 1
+                this.lotes= respuesta.data
+                this.lotes_count = ( this.lotes.total >0) ?  2 : 1
             })
         },
-        seleccionarMateriaPrima(materia)
+        seleccionarLote(lote)
         {
-            this.lote.materia_prima_id = materia.id
-            this.lote.materia_prima_nombre = materia.nombre
-            this.materiaPrimas=[]
-            this.materiaPrimas_count = 0
+            this.rectificado.lote_id = lote.id
+            this.rectificado.lote_nombre = lote.nombre
+            this.lotes=[]
+            this.lotes_count = 0
         },
         guardar()
         {
@@ -148,7 +141,7 @@ var app= new Vue({
                 if(respuesta.data.ok == 1)
                 {
                     Toast.fire({icon:'success','title' : respuesta.data.mensaje})
-                    $('#modal-lote').modal('hide')
+                    $('#modal-rectificado').modal('hide')
                     this.errores=[]
                     this.habilitados()
                 }
@@ -184,15 +177,15 @@ var app= new Vue({
             this.limpiar()
             this.mostrarDatos(lote)
             this.lote.estadoCrud = 'mostrar'
-            $('#modal-lote-mostrar').modal('show')
+            $('#modal-rectificado-mostrar').modal('show')
         },
         editar(lote)
         {
             this.limpiar()
             this.mostrarDatos(lote)
             this.lote.estadoCrud = 'editar'
-            $('#modal-lote-title').html('Editar Lote')        
-            $('#modal-lote').modal('show')
+            $('#modal-rectificado-title').html('Editar Lote')        
+            $('#modal-rectificado').modal('show')
         },
         eliminar(id) {
             Swal.fire({

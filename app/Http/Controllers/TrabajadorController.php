@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Trabajador;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\TipoDocumento;
 use App\Http\Traits\TrabajadorTrait;
@@ -137,5 +138,11 @@ class TrabajadorController extends Controller
              'trabajador' =>$trabajador,
              'mensaje' => 'Registro de Trabajador ha sido restaurado Satisfactoriamente'
          ]);
+    }
+
+    public function listar()
+    {
+        return Trabajador::select('id',DB::Raw("concat(nombres,' ',apellidos) as nombres"))
+                    ->get();
     }
 }

@@ -2,11 +2,8 @@
 
 namespace App\Http\Traits;
 
-use App\Http\Controllers\MateriaPrimaController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Lote;
