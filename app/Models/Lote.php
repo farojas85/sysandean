@@ -51,4 +51,14 @@ class Lote extends Model
     {
         return $this->hasMany(Plaqueado::class);
     }
+
+    /**
+     * Get all of the congelados for the Lote
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function congelados(): HasMany
+    {
+        return $this->hasMany(Congelado::class);
+    }
 }

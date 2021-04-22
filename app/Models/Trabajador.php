@@ -48,4 +48,14 @@ class Trabajador extends Model
     {
         return $this->hasMany(Plaqueado::class);
     }
+
+    /**
+     * Get all of the congelados for the Trabajador
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function congelados(): HasMany
+    {
+        return $this->hasMany(Congelado::class);
+    }
 }

@@ -5,12 +5,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0"> <i class="fab fa-buffer"></i>&nbsp;@{{ vista }} </h1>
+                <h1 class="m-0"> <i class="fas fa-icicles"></i>&nbsp;@{{ vista }} </h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                    <li class="breadcrumb-item active">Plaqueado</li>
+                    <li class="breadcrumb-item active">Congelado</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -22,7 +22,7 @@
 <div class="card card-outline card-primary">
     <div class="card-header">
         <h3 class="card-title">
-            <i class="fab fa-buffer"></i> Listado de Plaqueados
+            <i class="fas fa-icicles"></i> Listado de Congelados
             &nbsp;
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevo">
@@ -68,7 +68,7 @@
             </div>
         </div>
         <template v-if="filtroPorLotes">
-            @include('plaqueado.tabla-por-lotes')
+            @include('congelado.tabla-por-lotes')
         </template>
         <template v-else>
             <div class="row">
@@ -79,50 +79,50 @@
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th>Lote</th>
-                                    <th>KG. Plaqueado</th>
+                                    <th>KG. Congelados</th>
                                     <th>KG. Pelado Qu&iacute;mico</th>
                                     <th>Fecha Registro.</th>
-                                    <th>trabajador</th>
+                                    <th>Trabajador</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-if="total_plaqueados==0" >
+                                <tr v-if="total_congelados==0" >
                                     <td class="text-center text-danger" colspan="7">--Datos No Registrados--</td>
                                 </tr>
-                                <tr v-else v-for="(plaqueado, fila) in plaqueados.data">
-                                    <td class="text-center">@{{ fila + plaqueados.from }}</td>
-                                    <td class="text-center" v-text="plaqueado.lote.nombre"></td>
+                                <tr v-else v-for="(congelado, fila) in congelados.data">
+                                    <td class="text-center">@{{ fila + congelados.from }}</td>
+                                    <td class="text-center" v-text="congelado.lote.nombre"></td>
                                     <td class="text-center"> 
-                                        @{{ (parseFloat(plaqueado.kilogramo_plaqueado)).toFixed(2) }}
+                                        @{{ (parseFloat(congelado.kilogramo_congelado)).toFixed(2) }}
                                     </td>
                                     <td class="text-center">
-                                        <template v-for="pelado in plaqueado.lote.pelado_quimicos">
+                                        <template v-for="pelado in congelado.lote.pelado_quimicos">
                                             @{{ (parseFloat(pelado.kilogramo)).toFixed(2) }}
                                         </template>
                                     </td>
-                                    <td class="text-center" v-text="plaqueado.fecha"></td>
+                                    <td class="text-center" v-text="congelado.fecha"></td>
                                     <td>
-                                        @{{ plaqueado.trabajador.nombres+' '+plaqueado.trabajador.apellidos}}
+                                        @{{ congelado.trabajador.nombres+' '+congelado.trabajador.apellidos}}
                                     </td>
                                     <td class="text-center">
-                                        <template v-if="plaqueado.deleted_at">
+                                        <template v-if="congelado.deleted_at">
                                             <button type="button" class="btn bg-purple btn-xs"
-                                                        title="Restaurar Plaqueado" @click="restaurar(plaqueado.id)">
+                                                        title="Restaurar congelado" @click="restaurar(congelado.id)">
                                                 <i class="fas fa-trash-restore"></i>
                                             </button>
                                         </template>
                                         <template v-else>
                                             <button type="button" class="btn bg-info btn-xs"
-                                                    title="Mostrar Plaqueado" @click="mostrar(plaqueado.id)">
+                                                    title="Mostrar congelado" @click="mostrar(congelado.id)">
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                             <button type="button" class="btn btn-warning btn-xs"
-                                                    title="Editar Plaqueado" @click="editar(plaqueado.id)">
+                                                    title="Editar congelado" @click="editar(congelado.id)">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                             <button type="button" class="btn btn-danger btn-xs"
-                                                    title="Eliminar Plaqueado" @click="eliminar(plaqueado.id)">
+                                                    title="Eliminar congelado" @click="eliminar(congelado.id)">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </template>
@@ -137,15 +137,15 @@
                 <div class="col-md-12">
                     <nav>
                         <ul class="pagination">
-                            <li v-if="plaqueados.current_page >=2" class="page-item">
+                            <li v-if="congelados.current_page >=2" class="page-item">
                                 <a href="" aria-label="First" class="page-link"
                                 @click.prevent="changePage(0)">
                                     <span><i class="fas fa-fast-backward"></i></span>
                                 </a>
                             </li>
-                            <li v-if="plaqueados.current_page > 1" class="page-item">
+                            <li v-if="congelados.current_page > 1" class="page-item">
                                 <a href="" aria-label="Previous" class="page-link"
-                                @click.prevent="changePage(plaqueados.current_page - 1)">
+                                @click.prevent="changePage(congelados.current_page - 1)">
                                     <span><i class="fas fa-backward"></i></span>
                                 </a>
                             </li>
@@ -154,15 +154,15 @@
                                 <a href="" class="page-link"
                                     @click.prevent="changePage(page)">@{{ page }}</a>
                             </li>
-                            <li v-if="plaqueados.current_page < plaqueados.last_page" class="page-item">
+                            <li v-if="congelados.current_page < congelados.last_page" class="page-item">
                                 <a href="" aria-label="Next" class="page-link"
-                                    @click.prevent="changePage(plaqueados.current_page + 1)">
+                                    @click.prevent="changePage(congelados.current_page + 1)">
                                     <span aria-hidden="true"><i class="fas fa-forward"></i></span>
                                 </a>
                             </li>
-                            <li v-if="plaqueados.current_page < plaqueados.last_page-1" class="page-item">
+                            <li v-if="congelados.current_page < congelados.last_page-1" class="page-item">
                                 <a href="" aria-label="Last" class="page-link"
-                                    @click.prevent="changePage(plaqueados.last_page)">
+                                    @click.prevent="changePage(congelados.last_page)">
                                     <span aria-hidden="true"><i class="fas fa-fast-forward"></i></span>
                                 </a>
                             </li>
@@ -173,10 +173,10 @@
         </template>
     </div>
 </div>
-@include('plaqueado.form')
-@include('plaqueado.mostrar')
+@include('congelado.form')
+@include('congelado.mostrar')
 @endsection
 
 @section('scripties')
-    <script src="{{asset('js/plaqueado.js') }}"></script>
+    <script src="{{asset('js/congelado.js') }}"></script>
 @endsection

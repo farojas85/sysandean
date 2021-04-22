@@ -93,8 +93,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="home" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="congelado" class="nav-link  {{ Request::is('congelado') ? 'active' :''}}">
+                        <i class="nav-icon fas fa-icicles text-cyan"></i>
                         <p>
                            Congelado
                         </p>

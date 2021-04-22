@@ -11,6 +11,7 @@ use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PeladoQuimicoController;
 use App\Http\Controllers\PlaqueadoController;
 use App\Http\Controllers\RectificadoController;
+use App\Http\Controllers\CongeladoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,5 +44,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('pelado-quimico', PeladoQuimicoController::class);
     Route::resource('rectificado', RectificadoController::class);
     Route::resource('plaqueado', PlaqueadoController::class);
+    Route::resource('congelado', CongeladoController::class);
 });
 

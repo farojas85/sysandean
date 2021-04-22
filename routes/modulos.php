@@ -8,6 +8,7 @@ use App\Http\Controllers\PeladoQuimicoController;
 use App\Http\Controllers\RectificadoController;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\PlaqueadoController;
+use App\Http\Controllers\CongeladoController;
 
 Route::group(['middleware' => 'auth'], function(){
     //MATERIA PRIMA
@@ -65,4 +66,15 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('plaqueado-eliminar-permanente',[PlaqueadoController::class,'destroyPermanente'])->name('plaqueado.eliminar-permanente');
     Route::post('plaqueado-restaurar',[PlaqueadoController::class,'restaurar'])->name('plaqueado.restaurar');
     Route::get('plaqueado-por-lote',[PlaqueadoController::class,'obtenerplaqueadoPorLote'])->name('plaqueado.por-lote');
+
+    //CONGELADOS
+    Route::get('congelado-todos', [CongeladoController::class,'todos'])->name('congelado.todos');
+    Route::get('congelado-habilitados', [CongeladoController::class,'habilitados'])->name('congelado.habilitados');
+    Route::get('congelado-eliminados', [CongeladoController::class,'eliminados'])->name('congelado.eliminados');
+    Route::get('congelado-mostrar', [CongeladoController::class,'mostrar'])->name('congelado.mostrar');
+    Route::get('congelado-tabla',[CongeladoController::class,'mostrarTable'])->name('congelado.mostrar-tabla');
+    Route::post('congelado-eliminar-temporal',[CongeladoController::class,'destroyTemporal'])->name('congelado.eliminar-temporal');
+    Route::post('congelado-eliminar-permanente',[CongeladoController::class,'destroyPermanente'])->name('congelado.eliminar-permanente');
+    Route::post('congelado-restaurar',[CongeladoController::class,'restaurar'])->name('congelado.restaurar');
+    Route::get('congelado-por-lote',[CongeladoController::class,'obtenercongeladoPorLote'])->name('congelado.por-lote');
 });
