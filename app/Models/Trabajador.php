@@ -38,4 +38,14 @@ class Trabajador extends Model
     {
         return $this->hasMany(Rectificado::class);
     }
+
+    /**
+     * Get all of the plaqueados for the Trabajador
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function plaqueados(): HasMany
+    {
+        return $this->hasMany(Plaqueado::class);
+    }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PeladoQuimicoController;
 use App\Http\Controllers\RectificadoController;
 use App\Http\Controllers\TrabajadorController;
+use App\Http\Controllers\PlaqueadoController;
 
 Route::group(['middleware' => 'auth'], function(){
     //MATERIA PRIMA
@@ -53,4 +54,15 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('rectificado-eliminar-permanente',[RectificadoController::class,'destroyPermanente'])->name('rectificado.eliminar-permanente');
     Route::post('rectificado-restaurar',[RectificadoController::class,'restaurar'])->name('rectificado.restaurar');
     Route::get('rectificado-por-lote',[RectificadoController::class,'obtenerRectificadoPorLote'])->name('rectificado.por-lote');
+
+    //PLAQUEADOS
+    Route::get('plaqueado-todos', [PlaqueadoController::class,'todos'])->name('plaqueado.todos');
+    Route::get('plaqueado-habilitados', [PlaqueadoController::class,'habilitados'])->name('plaqueado.habilitados');
+    Route::get('plaqueado-eliminados', [PlaqueadoController::class,'eliminados'])->name('plaqueado.eliminados');
+    Route::get('plaqueado-mostrar', [PlaqueadoController::class,'mostrar'])->name('plaqueado.mostrar');
+    Route::get('plaqueado-tabla',[PlaqueadoController::class,'mostrarTable'])->name('plaqueado.mostrar-tabla');
+    Route::post('plaqueado-eliminar-temporal',[PlaqueadoController::class,'destroyTemporal'])->name('plaqueado.eliminar-temporal');
+    Route::post('plaqueado-eliminar-permanente',[PlaqueadoController::class,'destroyPermanente'])->name('plaqueado.eliminar-permanente');
+    Route::post('plaqueado-restaurar',[PlaqueadoController::class,'restaurar'])->name('plaqueado.restaurar');
+    Route::get('plaqueado-por-lote',[PlaqueadoController::class,'obtenerplaqueadoPorLote'])->name('plaqueado.por-lote');
 });

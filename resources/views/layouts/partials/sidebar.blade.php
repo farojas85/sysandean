@@ -77,16 +77,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="rectificado" class="nav-link">
-                        <i class="nav-icon fas fa-swimming-pool text-info"></i>
+                    <a href="rectificado" class="nav-link {{ Request::is('rectificado') ? 'active' :''}}">
+                        <i class="nav-icon fas fa-swimming-pool text-white"></i>
                         <p>
                            Rectificado
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="home" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="plaqueado" class="nav-link {{ Request::is('plaqueado') ? 'active' :''}}">
+                        <i class="nav-icon fab fa-buffer text-danger"></i>
                         <p>
                            Plaqueado
                         </p>

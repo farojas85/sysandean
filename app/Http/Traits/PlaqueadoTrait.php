@@ -6,19 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\Rectificado;
+use App\Models\Plaqueado;
 
-trait RectificadoTrait
+trait PlaqueadoTrait
 {
     public function habilitados(Request $request)
     {
         $buscar = mb_strtoupper($request->buscar);
-        return Rectificado::with(
+        return Plaqueado::with(
                         'lote:id,nombre,maduros',
                         'trabajador:id,nombres,apellidos',
-                        'lote.pelado_quimicos')
+                        'lote.rectificados')
                     ->select(
-                        'id','lote_id','kilogramo_rectificado','observacion','trabajador_id','deleted_at',
+                        'id','lote_id','kilogramo_plaqueado','observacion','trabajador_id','deleted_at',
                         DB::Raw("DATE_FORMAT(fecha_registro,'%d/%m/%Y') as fecha")
                     )
                     ->whereHas('lote',function($query) use($buscar){
@@ -30,12 +30,12 @@ trait RectificadoTrait
     public function todos(Request $request)
     {
         $buscar = mb_strtoupper($request->buscar);
-        return Rectificado::with(
+        return Plaqueado::with(
                         'lote:id,nombre,maduros',
                         'trabajador:id,nombres,apellidos',
-                        'lote.pelado_quimicos')
+                        'lote.restificados')
                     ->select(
-                        'id','lote_id','kilogramo_rectificado','observacion','trabajador_id','deleted_at',
+                        'id','lote_id','kilogramo_plaqueado','observacion','trabajador_id','deleted_at',
                         DB::Raw("DATE_FORMAT(fecha_registro,'%d/%m/%Y') as fecha")
                     )
                     ->whereHas('lote',function($query) use($buscar){
@@ -47,12 +47,12 @@ trait RectificadoTrait
     public function eliminados(Request $request)
     {
         $buscar = mb_strtoupper($request->buscar);
-        return Rectificado::with(
+        return Plaqueado::with(
                         'lote:id,nombre,maduros',
                         'trabajador:id,nombres,apellidos',
-                        'lote.pelado_quimicos')
+                        'lote.rectificados')
                     ->select(
-                        'id','lote_id','kilogramo_rectificado','observacion','trabajador_id','deleted_at',
+                        'id','lote_id','kilogramo_plaqueado','observacion','trabajador_id','deleted_at',
                         DB::Raw("DATE_FORMAT(fecha_registro,'%d/%m/%Y') as fecha")
                     )
                     ->whereHas('lote',function($query) use($buscar){
@@ -61,12 +61,12 @@ trait RectificadoTrait
                 ->onlyTrashed()->paginate($request->pagina);
     }
 
-    public function guardarRectificado(Request $request)
+    public function guardarPlaqueado(Request $request)
     {
         
         $reglas=[
             'lote_id' => 'required',
-            'kilogramo_rectificado' => 'required',
+            'kilogramo_plaqueado' => 'required',
             'fecha_registro' => 'required',
             'trabajador_id' => 'required'
          ];
@@ -79,44 +79,44 @@ trait RectificadoTrait
 
         if($request->estadoCrud == 'nuevo')
         {
-            $rectificado = new Rectificado();
-            $rectificado->lote_id = $request->lote_id;
-            $rectificado->kilogramo_rectificado = $request->kilogramo_rectificado;
-            $rectificado->observacion = $request->observacion;
-            $rectificado->fecha_registro = $request->fecha_registro;
-            $rectificado->trabajador_id= $request->trabajador_id;
-            $rectificado->usuario_crea = Auth::user()->id;
-            $rectificado->save();
+            $plaqueado = new Plaqueado();
+            $plaqueado->lote_id = $request->lote_id;
+            $plaqueado->kilogramo_plaqueado = $request->kilogramo_plaqueado;
+            $plaqueado->observacion = $request->observacion;
+            $plaqueado->fecha_registro = $request->fecha_registro;
+            $plaqueado->trabajador_id= $request->trabajador_id;
+            $plaqueado->usuario_crea = Auth::user()->id;
+            $plaqueado->save();
 
             return response()->json([
                 'ok' => 1,
-                'mensaje' => 'El Rectificado ha sido Registrado Satisfactoriamente'
+                'mensaje' => 'Plaqueado Registrado Satisfactoriamente'
             ],200);
         }
 
-        $rectificado = Rectificado::findOrFail($request->id);
-        $rectificado->lote_id = $request->lote_id;
-        $rectificado->kilogramo_rectificado = $request->kilogramo_rectificado;
-        $rectificado->observacion = $request->observacion;
-        $rectificado->fecha_registro = $request->fecha_registro;
-        $rectificado->trabajador_id= $request->trabajador_id;
-        $rectificado->usuario_modifica = Auth::user()->id;
-        $rectificado->save();
+        $plaqueado = Plaqueado::findOrFail($request->id);
+        $plaqueado->lote_id = $request->lote_id;
+        $plaqueado->kilogramo_plaqueado = $request->kilogramo_plaqueado;
+        $plaqueado->observacion = $request->observacion;
+        $plaqueado->fecha_registro = $request->fecha_registro;
+        $plaqueado->trabajador_id= $request->trabajador_id;
+        $plaqueado->usuario_modifica = Auth::user()->id;
+        $plaqueado->save();
 
         return response()->json([
             'ok' => 1,
-            'mensaje' => 'El Rectificado ha sido Modificado Satisfactoriamente'
+            'mensaje' => 'Plaqueado Modificado Satisfactoriamente'
         ],200);
     }
 
-    public function obtenerRectificadoPorLote(Request $request)
+    public function obtenerPlaqueadoPorLote(Request $request)
     {
-        return Rectificado::with(
+        return Plaqueado::with(
                     'lote:id,nombre,maduros',
                     'trabajador:id,nombres,apellidos',
-                    'lote.pelado_quimicos')
+                    'lote.rectificados')
                 ->select(
-                    'id','lote_id','kilogramo_rectificado','observacion','trabajador_id','deleted_at',
+                    'id','lote_id','kilogramo_plaqueado','observacion','trabajador_id','deleted_at',
                     DB::Raw("DATE_FORMAT(fecha_registro,'%d/%m/%Y') as fecha")
                 )
                 ->where('lote_id',$request->lote)->paginate(5);
