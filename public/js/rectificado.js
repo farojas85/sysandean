@@ -157,8 +157,9 @@ var app= new Vue({
             this.rectificado.id = ''
             this.rectificado.lote_id='',
             this.rectificado.lote_nombre=''
-            this.rectificado.kilogramo=''
+            this.rectificado.kilogramo_rectificado=''
             this.rectificado.observacion=''
+            this.rectificado.trabajador_id=''
             this.rectificado.fecha_registro=''
         },
         listarTrabajadores()
@@ -235,37 +236,34 @@ var app= new Vue({
                 }
             })
         },
-        mostrarDatos(lote)
+        mostrarDatos(id)
         {
-            axios.get('lote-mostrar?id='+lote)
+            axios.get('rectificado-mostrar?id='+id)
             .then(respuesta=>{                
-                let lote = respuesta.data
-                this.lote.id = lote.id
-                this.lote.nombre = lote.nombre
-                this.lote.materia_prima_id=lote.materia_prima.id
-                this.lote.materia_prima_nombre=lote.materia_prima.nombre
-                this.lote.kilogramo=lote.kilogramo
-                this.lote.descripcion = lote.descripcion
-                this.lote.fecha_registro=lote.fecha_registro
-                this.lote.maduros=lote.maduros
-                this.lote.pinton=lote.pinton
-                this.lote.verde=lote.verde
-                this.lote.podrido=lote.podrido
-                this.lote.enanas=lote.enanas
+                let rect = respuesta.data
+                this.rectificado.id = rect.id
+                this.rectificado.lote_id = rect.lote_id
+                this.rectificado.lote_nombre=rect.lote.nombre
+                this.rectificado.kilogramo_rectificado = rect.kilogramo_rectificado
+                this.rectificado.observacion = rect.observacion
+                this.rectificado.fecha_registro=rect.fecha_registro
+                this.rectificado.trabajador_id = rect.trabajador_id
             })
         },
-        mostrar(lote)
+        mostrar(id)
         {
             this.limpiar()
-            this.mostrarDatos(lote)
-            this.lote.estadoCrud = 'mostrar'
+            this.mostrarDatos(id)
+            this.listarTrabajadores()
+            this.rectificado.estadoCrud = 'mostrar'
             $('#modal-rectificado-mostrar').modal('show')
         },
         editar(lote)
         {
             this.limpiar()
             this.mostrarDatos(lote)
-            this.lote.estadoCrud = 'editar'
+            this.listarTrabajadores()
+            this.rectificado.estadoCrud = 'editar'
             $('#modal-rectificado-title').html('Editar Lote')        
             $('#modal-rectificado').modal('show')
         },
@@ -293,13 +291,13 @@ var app= new Vue({
             })
         },
         eliminarTemporal(id){
-            axios.post('lote-eliminar-temporal',{id:id})
+            axios.post('rectificado-eliminar-temporal',{id:id})
             .then((response) => {
                 if(response.data.ok==1)
                 {
                     Swal.fire({
                         icon : 'success',
-                        title : 'Lote',
+                        title : 'Rectificado',
                         text : response.data.mensaje,
                         confirmButtonText: 'Aceptar',
                         confirmButtonColor:"#1abc9c",
@@ -317,11 +315,11 @@ var app= new Vue({
             })
         },
         eliminarPermanente(id) {
-            axios.post('lote-eliminar-permanente',{id:id})
+            axios.post('rectificado-eliminar-permanente',{id:id})
             .then((response) => (
                 swal.fire({
                     icon : 'success',
-                    title : 'Lote',
+                    title : 'Rectificado',
                     text : response.data.mensaje,
                     confirmButtonText: 'Aceptar',
                     confirmButtonColor:"#1abc9c",
@@ -336,7 +334,7 @@ var app= new Vue({
                     this.errores = response.data.errors
                     swal.fire({
                         icon : 'error',
-                        title : 'Lote',
+                        title : 'Rectificado',
                         text : this.errores,
                         confirmButtonText: 'Aceptar',
                         confirmButtonColor:"#1abc9c",
@@ -346,8 +344,8 @@ var app= new Vue({
         },
         restaurar(id) {
             swal.fire({
-                title:"Lote",
-                text:'¿Está Seguro de Restaurar la Lote?"',
+                title:"Rectificado",
+                text:'¿Está Seguro de Restaurar el Rectificado?"',
                 icon:"question",
                 showCancelButton: true,
                 confirmButtonText:"Si",
@@ -356,13 +354,13 @@ var app= new Vue({
                 cancelButtonColor:"#dc3545"
             }).then( (response) => {
                 if(response.value) {
-                    axios.post('lote-restaurar',{id:id})
+                    axios.post('rectificado-restaurar',{id:id})
                     .then((response) => {
                         if(response.data.ok==1)
                         {
                             swal.fire({
                                 icon : 'success',
-                                title : 'Lote',
+                                title : 'Rectificado',
                                 text : response.data.mensaje,
                                 confirmButtonText: 'Aceptar',
                                 confirmButtonColor:"#1abc9c",
@@ -379,7 +377,7 @@ var app= new Vue({
                             this.errores = response.data.errors
                             swal.fire({
                                 icon : 'error',
-                                title : 'Lote',
+                                title : 'Rectificado',
                                 text : this.errores,
                                 confirmButtonText: 'Aceptar',
                                 confirmButtonColor:"#1abc9c",
@@ -392,7 +390,7 @@ var app= new Vue({
                     this.errores = response.data.errors
                     swal.fire({
                         icon : 'error',
-                        title : 'Lote',
+                        title : 'Rectificado',
                         text : this.errores,
                         confirmButtonText: 'Aceptar',
                         confirmButtonColor:"#1abc9c",

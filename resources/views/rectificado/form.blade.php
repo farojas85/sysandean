@@ -12,7 +12,7 @@
                     <label for="" class='col-md-1 col-form-label col-form-label-sm'>Lote</label>
                     <div class="col-md-10">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control form-control-sm" :class="{ 'is-invalid' : errores.materia_prima_id }" placeholder="Buscar Lote"
+                            <input type="text" class="form-control form-control-sm" :class="{ 'is-invalid' : errores.lote_id }" placeholder="Buscar Lote"
                             v-model="rectificado.lote_nombre" @change="buscarLotes" />
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-info btn-xs">

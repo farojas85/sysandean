@@ -51,6 +51,12 @@ class RectificadoController extends Controller
         //
     }
 
+    public function mostrar(Request $request)
+    {
+        $rectificado = Rectificado::with('lote:id,nombre')->findOrFail($request->id);
+        return $rectificado;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -80,8 +86,39 @@ class RectificadoController extends Controller
      * @param  \App\Models\Rectificado  $rectificado
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rectificado $rectificado)
+    public function destroyPermanente(Request $request)
     {
-        //
+        $rectificado = Rectificado::withTrashed()->where('id',$request->id)->first();
+
+        //eliminamos al materiaPr$lote de la base de datos
+        $rectificado->forceDelete();
+
+        return response()->json([
+            'ok' => 1,
+            'rectificado' =>$rectificado,
+            'mensaje' => 'Registro de Rectificado ha sido eliminado Satisfactoriamente'
+        ]);
+    }
+
+    public function destroyTemporal(Request $request)
+    {
+       $rectificado = Rectificado::withTrashed()->where('id',$request->id)->first()->delete();
+
+        return response()->json([
+            'ok' => 1,
+            'rectificado' =>$rectificado,
+            'mensaje' => 'Registro de Rectificado ha sido enviado a Papelera de Reciclaje'
+        ]);
+    }
+
+    public function restaurar(Request $request) {
+        $rectificado = Rectificado::onlyTrashed()
+                         ->where('id',$request->id)->first()->restore();
+
+         return response()->json([
+             'ok' =>1,
+             'rectificado' =>$rectificado,
+             'mensaje' => 'Registro de Rectificado ha sido restaurado Satisfactoriamente'
+         ]);
     }
 }
