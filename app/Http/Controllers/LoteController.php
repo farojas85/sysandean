@@ -139,4 +139,9 @@ class LoteController extends Controller
              'mensaje' => 'Registro de Lote ha sido restaurado Satisfactoriamente'
          ]);
     }
+
+    public function listar()
+    {
+        return Lote::select('id','nombre')->get();
+    }
 }

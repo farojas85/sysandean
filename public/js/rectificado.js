@@ -20,7 +20,13 @@ var app= new Vue({
         lotes:[],
         lotes_count:0,
         total_rectificados:0,
-        show_rectificados:'habilitados'
+        show_rectificados:'habilitados',
+        trabajadores:[],
+        filtroPorLotes:false,
+        filtroLotes:[],
+        buscarLote:{
+            lote:''
+        },
     },
     created() {
         this.habilitados()
@@ -47,6 +53,44 @@ var app= new Vue({
                 from++;
             }
             return pagesArray;
+        },
+          // a computed getter
+        totalKilogramoRectificado: function () {
+            var suma = 0
+            if(this.rectificados.data)
+            {
+                this.rectificados.data.forEach( rect =>{
+                    suma += rect.kilogramo_rectificado
+                })
+            }
+            return (suma.toFixed(2))
+        },
+        rendimientoEtapa: function() {
+            var rendimiento = 0
+            if(this.rectificados.data)
+            {
+               var suma =0
+                this.rectificados.data.forEach( rect =>{
+                    rect.lote.pelado_quimicos.forEach(pelado =>{
+                        suma += pelado.kilogramo
+                    })
+                })
+                rendimiento = (this.totalKilogramoRectificado/suma)*100
+            }
+
+            return rendimiento.toFixed(2)
+        },
+        rendimientoPrincipio: function() {
+            var rendimiento = 0
+            if(this.rectificados.data)
+            {
+                maduros = 0
+                this.rectificados.data.forEach( rect =>{
+                   maduros = rect.lote.maduros
+                })
+                rendimiento = (this.totalKilogramoRectificado/maduros)*100
+            }
+            return rendimiento.toFixed(2)
         }
     },
     methods:{
@@ -57,34 +101,44 @@ var app= new Vue({
             this.getResults()
         },
         listar() {
-            axios.get('lote-'+this.show_rectificados+'?pagina='+this.pagina+'&buscar='+this.busqueda)
+            axios.get('rectificado-'+this.show_rectificados+'?pagina='+this.pagina+'&buscar='+this.busqueda)
             .then((respuesta) => {
                 this.rectificados=respuesta.data
                 this.total_rectificados = this.rectificados.total
             })
         },
         getResults(page=1){
-            axios.get('lote-'+this.show_rectificados+'?page='+page+'&pagina='+this.pagina+'&buscar='+this.busqueda)
+            axios.get('rectificado-'+this.show_rectificados+'?page='+page+'&pagina='+this.pagina+'&buscar='+this.busqueda)
             .then(response => {
                 this.rectificados = response.data
                 this.total_rectificados = this.rectificados.total
             });
         },
+        limpiarTablas()
+        {
+            this.filtroPorLotes = false
+            this.filtroLotes = []
+            this.rectificados = {}
+            this.total_rectificados = 0
+        },
         todos()
         {
             this.show_rectificados = 'todos'
+            this.limpiarTablas()  
             this.limpiar()
             this.getResults()
         },
         habilitados()
         {
             this.show_rectificados = 'habilitados'
+            this.limpiarTablas()
             this.listar()
             this.getResults()
         },
         eliminados()
         {
             this.show_rectificados = 'eliminados'
+            this.limpiarTablas()
             this.listar()
             this.getResults()
         },
@@ -109,13 +163,17 @@ var app= new Vue({
         },
         listarTrabajadores()
         {
-
+            axios.get('trabajador-listar')
+            .then(respuesta => {
+                this.trabajadores = respuesta.data
+            })
         },
         nuevo()
         {
             this.limpiar()
             this.rectificado.estadoCrud = 'nuevo'
             $('#modal-rectificado').modal('show')
+            this.listarTrabajadores()
         },
         buscarLotes(event)
         {
@@ -134,9 +192,33 @@ var app= new Vue({
             this.lotes=[]
             this.lotes_count = 0
         },
+        listarLotes()
+        {
+            axios.get('lote-listar')
+            .then(respuesta =>{
+                this.filtroLotes = respuesta.data
+                this.buscarLote.lote =''
+            })
+        },
+        porLotes()
+        {
+            this.filtroPorLotes = true;
+            this.rectificados = []
+            this.total_rectificados = 0
+            this.listarLotes()
+        },
+        obtenerRecitificadosLote(event)
+        {
+            this.buscarLote.lote = event.target.value
+            axios.get('rectificado-por-lote',{params:this.buscarLote})
+            .then(respuesta => {
+                this.rectificados = respuesta.data
+                this.total_rectificados = this.rectificados.total
+            })
+        },
         guardar()
         {
-            axios.post('lote',this.lote)
+            axios.post('rectificado',this.rectificado)
             .then(respuesta =>{
                 if(respuesta.data.ok == 1)
                 {

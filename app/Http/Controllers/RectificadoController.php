@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Rectificado;
 use Illuminate\Http\Request;
+use App\Http\Traits\RectificadoTrait;
 
 class RectificadoController extends Controller
 {
+    use RectificadoTrait;
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +37,7 @@ class RectificadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->guardarRectificado($request);
     }
 
     /**

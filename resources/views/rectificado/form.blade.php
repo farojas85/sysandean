@@ -68,10 +68,31 @@
                 <div class="form-group row">
                     <label for="" class='col-md-3 col-form-label col-form-label-sm' title="Fecha Registro">Trabajador</label>
                     <div class="col-md-8 ">
-                        <input type="date" class="form-control form-control-sm" placeholder="Seleccione Fecha"
-                            v-model="rectificado.fecha_registro" :class="{ 'is-invalid' : errores.fecha_registro }"/>
-                        <small class="text-danger font-weight-bold" v-for="error in errores.fecha_registro">@{{ error }}</small>
+                        <select v-model="rectificado.trabajador_id" class="form-control form-control-sm" >
+                            <option value="">-Seleccionar-</option>
+                            <option v-for="t in trabajadores" :key="t.id" :value="t.id" v-text="t.nombres"></option>
+                        </select>
+                        <small class="text-danger font-weight-bold" v-for="error in errores.trabajador_id">@{{ error }}</small>
                     </div>
+                </div>
+                <div class="form-group row">
+                    <label for="" class='col-md-3 col-form-label col-form-label-sm'>Observaciones</label>
+                    <div class="col-md-8 ">
+                        <textarea rows="2" class="form-control form-control-sm" placeholder="Ingrese Obseración"
+                            v-model="rectificado.observacion" ></textarea>
+                        <small class="text-danger font-weight-bold" v-for="error in errores.observacion">@{{ error }}</small>
+                    </div>
+                </div>
+                <div class="modal-footer form-group text-center">
+                    <button type="button" class="btn btn-danger" id="btn-cerrar" data-dismiss="modal">
+                        <i class="fas fa-times"></i> Cerrar
+                    </button>
+                    &nbsp;
+                    <button type="submit" class="btn btn-success btn-guardar-materia" :value='rectificado.estadoCrud'
+                            name="btn-guardar-materia" @click.prevent="guardar">
+                            <i :class="(rectificado.estadoCrud == 'nuevo') ? 'fa fa-save' : 'fa fa-refresh'"></i>  
+                        @{{ ( rectificado.estadoCrud == 'nuevo' ? 'Guardar' : 'Actualizar')}}
+                    </button> 
                 </div>
             </div>
         </div>

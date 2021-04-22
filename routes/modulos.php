@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('lote-eliminar-temporal',[LoteController::class,'destroyTemporal'])->name('lote.eliminar-temporal');
     Route::post('lote-eliminar-permanente',[LoteController::class,'destroyPermanente'])->name('lote.eliminar-permanente');
     Route::post('lote-restaurar',[LoteController::class,'restaurar'])->name('lote.restaurar');
+    Route::get('lote-listar',[LoteController::class,'listar'])->name('lote.listar');
 
     //PELADOS QUÍMICOS
     Route::get('lote-buscar',[PeladoQuimicoController::class,'buscarLote'])->name('pelado-quimico-buscar.buscar-lote');
@@ -51,4 +52,5 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('rectificado-eliminar-temporal',[RectificadoController::class,'destroyTemporal'])->name('rectificado.eliminar-temporal');
     Route::post('rectificado-eliminar-permanente',[RectificadoController::class,'destroyPermanente'])->name('rectificado.eliminar-permanente');
     Route::post('rectificado-restaurar',[RectificadoController::class,'restaurar'])->name('rectificado.restaurar');
+    Route::get('rectificado-por-lote',[RectificadoController::class,'obtenerRectificadoPorLote'])->name('rectificado.por-lote');
 });

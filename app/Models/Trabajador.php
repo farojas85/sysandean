@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,5 +27,15 @@ class Trabajador extends Model
     public function tipo_documento(): BelongsTo
     {
         return $this->belongsTo(TipoDocumento::class);
+    }
+
+    /**
+     * Get all of the rectificados for the Trabajador
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rectificados(): HasMany
+    {
+        return $this->hasMany(Rectificado::class);
     }
 }
