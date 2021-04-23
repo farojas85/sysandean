@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Envasado;
 use Illuminate\Http\Request;
 
-use App\http\Traits\EnvasadoTrait;
+use App\Http\Traits\EnvasadoTrait;
 
 class EnvasadoController extends Controller
 {
