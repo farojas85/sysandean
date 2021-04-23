@@ -143,7 +143,7 @@ var app= new Vue({
             this.getResults()
         },
         changePage(page) {
-            this.usuarios.current_page = page;
+            this.plaqueados.current_page = page;
             this.getResults(page)
         },
         buscar()

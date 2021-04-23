@@ -58,4 +58,14 @@ class Trabajador extends Model
     {
         return $this->hasMany(Congelado::class);
     }
+
+    /**
+     * Get all of the envasados for the Trabajador
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function envasados(): HasMany
+    {
+        return $this->hasMany(Envasado::class);
+    }
 }

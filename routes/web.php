@@ -12,6 +12,7 @@ use App\Http\Controllers\PeladoQuimicoController;
 use App\Http\Controllers\PlaqueadoController;
 use App\Http\Controllers\RectificadoController;
 use App\Http\Controllers\CongeladoController;
+use App\Http\Controllers\EnvasadoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,5 +46,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('rectificado', RectificadoController::class);
     Route::resource('plaqueado', PlaqueadoController::class);
     Route::resource('congelado', CongeladoController::class);
+    Route::resource('envasado', EnvasadoController::class);
 });
 

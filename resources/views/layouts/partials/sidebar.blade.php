@@ -101,8 +101,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="home" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="envasado" class="nav-link {{ Request::is('envasado') ? 'active' :''}}">
+                        <i class="nav-icon fas fa-parking text-lime"></i>
                         <p>
                            Envasado
                         </p>
