@@ -247,7 +247,8 @@ var app= new Vue({
                 this.almacenado.id = rect.id
                 this.almacenado.lote_id = rect.lote_id
                 this.almacenado.lote_nombre=rect.lote.nombre
-                this.almacenado.kilogramo_almacenado = rect.kilogramo_almacenado
+                this.almacenado.cajas = rect.cajas
+                this.almacenado.peso_caja = rect.peso_caja
                 this.almacenado.observacion = rect.observacion
                 this.almacenado.fecha_registro=rect.fecha_registro
                 this.almacenado.trabajador_id = rect.trabajador_id
@@ -272,7 +273,7 @@ var app= new Vue({
         },
         eliminar(id) {
             Swal.fire({
-                title:"almacenados",
+                title:"Almacenados",
                 text:'¿Está Seguro de Eliminar la Lote?',
                 icon:"question",
                 showCancelButton: true,

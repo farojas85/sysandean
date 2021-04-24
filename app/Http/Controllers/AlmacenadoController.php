@@ -52,6 +52,11 @@ class AlmacenadoController extends Controller
         //
     }
 
+    public function mostrar(Request $request)
+    {
+        $almacenado = Almacenado::with('lote:id,nombre')->findOrFail($request->id);
+        return $almacenado;
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -81,8 +86,39 @@ class AlmacenadoController extends Controller
      * @param  \App\Models\Almacenado  $almacenado
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Almacenado $almacenado)
+    public function destroyPermanente(Request $request)
     {
-        //
+        $almacenado = Almacenado::withTrashed()->where('id',$request->id)->first();
+
+        //eliminamos al materiaPr$lote de la base de datos
+        $almacenado->forceDelete();
+
+        return response()->json([
+            'ok' => 1,
+            'almacenado' =>$almacenado,
+            'mensaje' => 'Registro de Almacenado ha sido eliminado Satisfactoriamente'
+        ]);
+    }
+
+    public function destroyTemporal(Request $request)
+    {
+       $almacenado = Almacenado::withTrashed()->where('id',$request->id)->first()->delete();
+
+        return response()->json([
+            'ok' => 1,
+            'almacenado' =>$almacenado,
+            'mensaje' => 'Registro de Almacenado ha sido enviado a Papelera de Reciclaje'
+        ]);
+    }
+
+    public function restaurar(Request $request) {
+        $almacenado = Almacenado::onlyTrashed()
+                         ->where('id',$request->id)->first()->restore();
+
+         return response()->json([
+             'ok' =>1,
+             'almacenado' =>$almacenado,
+             'mensaje' => 'Registro de Envasado ha sido restaurado Satisfactoriamente'
+         ]);
     }
 }
