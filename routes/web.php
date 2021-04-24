@@ -13,6 +13,7 @@ use App\Http\Controllers\PlaqueadoController;
 use App\Http\Controllers\RectificadoController;
 use App\Http\Controllers\CongeladoController;
 use App\Http\Controllers\EnvasadoController;
+use App\Http\Controllers\AlmacenadoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,5 +48,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('plaqueado', PlaqueadoController::class);
     Route::resource('congelado', CongeladoController::class);
     Route::resource('envasado', EnvasadoController::class);
+    Route::resource('almacenado', AlmacenadoController::class);
 });
 

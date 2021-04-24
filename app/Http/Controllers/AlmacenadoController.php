@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Almacenado;
 use Illuminate\Http\Request;
 
+use App\Http\Traits\AlmacenadoTrait;
+
 class AlmacenadoController extends Controller
 {
+    use AlmacenadoTrait;
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +17,7 @@ class AlmacenadoController extends Controller
      */
     public function index()
     {
-        //
+        return view('almacenado.inicio');
     }
 
     /**
@@ -35,7 +38,7 @@ class AlmacenadoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->guardarAlmacenado($request);
     }
 
     /**

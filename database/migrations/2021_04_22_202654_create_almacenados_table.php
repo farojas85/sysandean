@@ -17,7 +17,7 @@ class CreateAlmacenadosTable extends Migration
             $table->id();
             $table->foreignId('lote_id')->nullable()->constrained('lotes');
             $table->unsignedInteger('cajas');
-            $table->unsignedInteger('peso_caja');
+            $table->decimal('peso_caja',18,2);
             $table->string('observacion',255)->nullable();
             $table->date('fecha_registro');
             $table->foreignId('trabajador_id')->nullable()->constrained('trabajadores');

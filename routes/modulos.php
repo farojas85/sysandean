@@ -10,6 +10,7 @@ use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\PlaqueadoController;
 use App\Http\Controllers\CongeladoController;
 use App\Http\Controllers\EnvasadoController;
+use App\Http\Controllers\AlmacenadoController;
 
 Route::group(['middleware' => 'auth'], function(){
     //MATERIA PRIMA
@@ -89,4 +90,14 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('envasado-eliminar-permanente',[EnvasadoController::class,'destroyPermanente'])->name('envasado.eliminar-permanente');
     Route::post('envasado-restaurar',[EnvasadoController::class,'restaurar'])->name('envasado.restaurar');
     Route::get('envasado-por-lote',[EnvasadoController::class,'obtenerEnvasadoPorLote'])->name('envasado.por-lote');
+    //ALMACENADO
+    Route::get('almacenado-todos', [AlmacenadoController::class,'todos'])->name('almacenado.todos');
+    Route::get('almacenado-habilitados', [AlmacenadoController::class,'habilitados'])->name('almacenado.habilitados');
+    Route::get('almacenado-eliminados', [AlmacenadoController::class,'eliminados'])->name('almacenado.eliminados');
+    Route::get('almacenado-mostrar', [AlmacenadoController::class,'mostrar'])->name('almacenado.mostrar');
+    Route::get('almacenado-tabla',[AlmacenadoController::class,'mostrarTable'])->name('almacenado.mostrar-tabla');
+    Route::post('almacenado-eliminar-temporal',[AlmacenadoController::class,'destroyTemporal'])->name('almacenado.eliminar-temporal');
+    Route::post('almacenado-eliminar-permanente',[AlmacenadoController::class,'destroyPermanente'])->name('almacenado.eliminar-permanente');
+    Route::post('almacenado-restaurar',[AlmacenadoController::class,'restaurar'])->name('almacenado.restaurar');
+    Route::get('almacenado-por-lote',[AlmacenadoController::class,'obtenerAlmacenadoPorLote'])->name('almacenado.por-lote');
 });
