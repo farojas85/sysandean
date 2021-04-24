@@ -15,9 +15,9 @@
             </div>
             <div class="info">
                 @auth
-                <a href="#" class="d-block">{{ Auth::user()->nombre }}</a>  
+                <a href="#" class="d-block">{{ \Auth::user()->usuario }}</a>  
                 @else  
-                <a href="#" class="d-block">Invitado</a>
+                <a href="#" class="d-block">Usuario</a>
                 @endauth
             </div>
         </div>

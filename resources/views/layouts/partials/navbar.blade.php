@@ -7,9 +7,9 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <li v-if="this.$auth.user">
+      <li >
           <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true" >
-              <img src="{{ asset('images/user.png') }}" height="32">@auth {{ Auth::user()->nombre}} @else Invitado @endauth
+              <img src="{{ asset('images/user.png') }}" height="32">@auth {{ \Auth::user()->usuario}} @else Invitado @endauth
           </a>
           <div class="dropdown-menu dropdown-menu-right">
               <div class="dropdown-divider"></div>
