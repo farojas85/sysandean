@@ -30,6 +30,8 @@
 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <!-- Toastr -->
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
+<!-- Your application script -->
+<script src="{{ asset('plugins/chart.js/Chart.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
@@ -46,5 +48,6 @@
             showConfirmButton: false,
             timer: 3000
         });
+  
 </script>
 @yield('scripties')

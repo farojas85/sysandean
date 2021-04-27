@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Charts\\ReporteChart' => $baseDir . '/app/Charts/ReporteChart.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\AlmacenadoController' => $baseDir . '/app/Http/Controllers/AlmacenadoController.php',
@@ -48,6 +49,7 @@ return array(
     'App\\Http\\Traits\\RectificadoTrait' => $baseDir . '/app/Http/Traits/RectificadoTrait.php',
     'App\\Http\\Traits\\TrabajadorTrait' => $baseDir . '/app/Http/Traits/TrabajadorTrait.php',
     'App\\Http\\Traits\\UserTrait' => $baseDir . '/app/Http/Traits/UserTrait.php',
+    'App\\Http\\ViewComposers\\ReporteComposer' => $baseDir . '/app/Http/ViewComposers/ReporteComposer.php',
     'App\\Models\\Almacenado' => $baseDir . '/app/Models/Almacenado.php',
     'App\\Models\\Congelado' => $baseDir . '/app/Models/Congelado.php',
     'App\\Models\\Envasado' => $baseDir . '/app/Models/Envasado.php',
@@ -62,6 +64,7 @@ return array(
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
+    'App\\Providers\\ComposerServiceProvider' => $baseDir . '/app/Providers/ComposerServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'Asm89\\Stack\\Cors' => $vendorDir . '/asm89/stack-cors/src/Cors.php',

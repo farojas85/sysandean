@@ -55,14 +55,14 @@
         <!-- small box -->
         <div class="small-box bg-warning">
             <div class="inner">
-                <h3>44</h3>
+                <h3>{{ $trabajadores_count }}</h3>
 
-                <p>User Registrations</p>
+                <p>Trabajadores</p>
             </div>
             <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fas fa-users"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="sistema" class="small-box-footer">M&aacute;s info...<i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -80,7 +80,145 @@
             <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
+    {{-- <div id="chart" style="height: 300px;"></div> --}}
+
     <!-- ./col -->
 </div>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-2">
+        <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text font-weight-bold">LOTE</span>
+            </div>
+            <select v-model="lote" id="lote" >
+                <option value="">-Seleccionar-</option>
+                <option v-for="lote in lotes" :value="lote.id" v-text="lote.nombre"></option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text font-weight-bold">Fecha</span>
+            </div>
+             <input type="date" v-model="fecha" class="form-control" @change="obtenerDatosLotes">
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 position-relative">
+        <canvas id="lotes-chart"></canvas>
+    </div>
+    <div class="col-md-2"></div>
+</div>
 <!-- /.row -->
+@endsection
+
+@section('scripties')
+<script>
+    new Vue({
+        el: '#wrapper',
+        data: {
+            lotes:[],
+            fechaActual: '',
+            lote: '',
+            fecha:'',
+            fechas: [],
+            graficaLotes:{
+                cantidad :[],
+                detalles:['Maduro','Pintón','Verde','Podrido','Pequeño'],
+            },
+            salesChart:null,
+            pieLotesChart:null,
+        },
+        created() {
+            this.obtenerLotes()
+            
+            //this.ultimoDia()
+            //this.listarUltimasMatriculas()
+        },
+        methods: {
+            obtenerLotes()
+            {
+                axios.get('lote-listar')
+                .then(respuesta => {
+                    this.lotes = respuesta.data
+                    this.lote =1
+                    this.obtenerFechaPorLote()
+                    
+                })
+            },
+            obtenerFechaPorLote()
+            {
+                axios.get('lote-listar-fecha',{params:{lote:this.lote}})
+                .then(respuesta => {
+                    this.fecha = respuesta.data.fecha_registro
+                    this.obtenerDatosLotes()
+                })
+            },
+            obtenerDatosLotes()
+            {
+
+                this.graficaLotes.cantidad = []
+                axios.get('lote-listar-datos',{ 
+                    params:{ lote:this.lote, fecha:this.fecha}
+                }).then(respuesta => {
+                    this.graficaLotes.cantidad = respuesta.data.cantidades
+                    this.graficarLotesAhora()
+                })
+            },
+            randomColors() {
+                var r = Math.floor(Math.random() * 255)
+                var g = Math.floor(Math.random() * 255)
+                var b = Math.floor(Math.random() * 255)
+                return "rgb(" + r + "," + g + "," + b + ")"
+            },
+            graficarLotesAhora() {
+                if(this.pieLotesChart)
+                {
+                    this.pieLotesChart.clear()
+                    this.pieLotesChart.destroy()
+                }
+
+                var $pieChart = $('#lotes-chart')
+
+                var config = {
+                    type: 'pie',
+                    data: {
+                        datasets:[{
+                            data: this.graficaLotes.cantidad,
+                            backgroundColor:[
+                                '#3c8dbc','#f56954', '#00a65a', '#f39c12', '#00c0ef',
+                            ],
+                            label: 'Ventas',
+                            datalabels: {
+                                labels: {
+                                    title: {
+                                        color: 'white'
+                                    },
+                                },
+                                font: {
+                                    weight: 'bold'
+                                },
+                            }
+                        }],
+                        labels:this.graficaLotes.detalles
+                    },
+                    options: {
+                        responsive: true,
+                        legend:{
+                            position: 'bottom'
+                        },
+                    }
+                }
+
+                this.pieLotesChart = new Chart($pieChart,config)
+            },
+        }
+    })
+
+</script>
 @endsection

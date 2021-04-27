@@ -5,8 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
-
 use App\Models\User;
+use App\Models\Trabajador;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,6 +44,11 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('usuarios', $usuarios);
 
+        });
+
+        view()->composer('principal',function($view){
+           $trabajadores_count = Trabajador::where('estado',1)->count();
+           $view->with('trabajadores_count',$trabajadores_count);
         });
     }
 }

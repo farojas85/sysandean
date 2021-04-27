@@ -11,6 +11,7 @@ use App\Http\Controllers\PlaqueadoController;
 use App\Http\Controllers\CongeladoController;
 use App\Http\Controllers\EnvasadoController;
 use App\Http\Controllers\AlmacenadoController;
+use App\Http\Controllers\ReporteController;
 
 Route::group(['middleware' => 'auth'], function(){
     //MATERIA PRIMA
@@ -34,6 +35,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('lote-eliminar-permanente',[LoteController::class,'destroyPermanente'])->name('lote.eliminar-permanente');
     Route::post('lote-restaurar',[LoteController::class,'restaurar'])->name('lote.restaurar');
     Route::get('lote-listar',[LoteController::class,'listar'])->name('lote.listar');
+    Route::get('lote-listar-fecha',[LoteController::class,'listarFechaPorLote'])->name('lote.listar-fecha');
+    Route::get('lote-listar-datos',[LoteController::class,'ListarDatosLotes'])->name('lote.listar-datos');
 
     //PELADOS QUÍMICOS
     Route::get('lote-buscar',[PeladoQuimicoController::class,'buscarLote'])->name('pelado-quimico-buscar.buscar-lote');
@@ -100,4 +103,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('almacenado-eliminar-permanente',[AlmacenadoController::class,'destroyPermanente'])->name('almacenado.eliminar-permanente');
     Route::post('almacenado-restaurar',[AlmacenadoController::class,'restaurar'])->name('almacenado.restaurar');
     Route::get('almacenado-por-lote',[AlmacenadoController::class,'obtenerAlmacenadoPorLote'])->name('almacenado.por-lote');
+
+    Route::get('reporte-lotes',[ReporteController::class,'obtenerLote'])->name('reporte-lotes.lotes');
 });

@@ -570,6 +570,7 @@ class ComposerStaticInit8e4124cebf3dfdbe9966a99e2f53e99b
     );
 
     public static $classMap = array (
+        'App\\Charts\\ReporteChart' => __DIR__ . '/../..' . '/app/Charts/ReporteChart.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AlmacenadoController' => __DIR__ . '/../..' . '/app/Http/Controllers/AlmacenadoController.php',
@@ -612,6 +613,7 @@ class ComposerStaticInit8e4124cebf3dfdbe9966a99e2f53e99b
         'App\\Http\\Traits\\RectificadoTrait' => __DIR__ . '/../..' . '/app/Http/Traits/RectificadoTrait.php',
         'App\\Http\\Traits\\TrabajadorTrait' => __DIR__ . '/../..' . '/app/Http/Traits/TrabajadorTrait.php',
         'App\\Http\\Traits\\UserTrait' => __DIR__ . '/../..' . '/app/Http/Traits/UserTrait.php',
+        'App\\Http\\ViewComposers\\ReporteComposer' => __DIR__ . '/../..' . '/app/Http/ViewComposers/ReporteComposer.php',
         'App\\Models\\Almacenado' => __DIR__ . '/../..' . '/app/Models/Almacenado.php',
         'App\\Models\\Congelado' => __DIR__ . '/../..' . '/app/Models/Congelado.php',
         'App\\Models\\Envasado' => __DIR__ . '/../..' . '/app/Models/Envasado.php',
@@ -626,6 +628,7 @@ class ComposerStaticInit8e4124cebf3dfdbe9966a99e2f53e99b
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
+        'App\\Providers\\ComposerServiceProvider' => __DIR__ . '/../..' . '/app/Providers/ComposerServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Cors.php',

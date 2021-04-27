@@ -149,5 +149,38 @@ trait LoteTrait
         ],200);
 
     }
+
+    public function listar()
+    {
+        return Lote::select('id','nombre')->get();
+    }
+
+    public function listarFechaPorLote(Request $request)
+    {
+        return Lote::select('fecha_registro')->where('id',$request->lote)
+                    ->groupBy('fecha_registro')->first();
+    }
+
+    public function ListarDatosLotes(request $request)
+    {
+        $lote = Lote::select('id','kilogramo','maduros','pinton','verde','podrido','enanas')
+                    ->where('id',$request->lote)
+                    ->where('fecha_registro',$request->fecha)
+                    ->first();
+
+        if(!$lote)
+        {
+            $cantidades=[0,0,0,0,0];
+        }
+        else {
+             $cantidades= [ $lote->maduros,$lote->pinton,$lote->verde,
+                             $lote->podrido,$lote->enanas];
+        }
+        
+        return response()->json([
+            'lote' => $lote,
+            'cantidades' => $cantidades
+        ]);
+    }
 }
 
