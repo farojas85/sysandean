@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Trabajador;
+use App\Models\Lote;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,7 +49,9 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('principal',function($view){
            $trabajadores_count = Trabajador::where('estado',1)->count();
-           $view->with('trabajadores_count',$trabajadores_count);
+           $lotes_count = Lote::count();
+           $view->with('trabajadores_count',$trabajadores_count)
+                ->with('lotes_count',$lotes_count);
         });
     }
 }

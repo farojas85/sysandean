@@ -5,7 +5,7 @@ namespace App\Http\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use Carbon\Carbon;
 use App\Models\Lote;
 
 trait LoteTrait
@@ -163,23 +163,26 @@ trait LoteTrait
 
     public function ListarDatosLotes(request $request)
     {
-        $lote = Lote::select('id','kilogramo','maduros','pinton','verde','podrido','enanas')
+        $lote = Lote::select('id','nombre','kilogramo','maduros','pinton','verde','podrido','enanas','fecha_registro')
                     ->where('id',$request->lote)
                     ->where('fecha_registro',$request->fecha)
                     ->first();
-
+        
+        $cantidades =[];
         if(!$lote)
         {
-            $cantidades=[0,0,0,0,0];
+            $cantidades=[0,0,0,0,0];    
         }
         else {
-             $cantidades= [ $lote->maduros,$lote->pinton,$lote->verde,
+            $cantidades= [ $lote->maduros,$lote->pinton,$lote->verde,
                              $lote->podrido,$lote->enanas];
         }
         
         return response()->json([
             'lote' => $lote,
-            'cantidades' => $cantidades
+            'cantidades' => $cantidades,
+            'lote_nombre' => ( $lote) ? $lote->nombre : '',
+            'fecha' => (!$lote)? '' : Carbon::parse($lote->fecha_registro)->format('d/m/Y')
         ]);
     }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\CongeladoController;
 use App\Http\Controllers\EnvasadoController;
 use App\Http\Controllers\AlmacenadoController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\ReporteResumenController;
 
 Route::group(['middleware' => 'auth'], function(){
     //MATERIA PRIMA
@@ -103,6 +104,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('almacenado-eliminar-permanente',[AlmacenadoController::class,'destroyPermanente'])->name('almacenado.eliminar-permanente');
     Route::post('almacenado-restaurar',[AlmacenadoController::class,'restaurar'])->name('almacenado.restaurar');
     Route::get('almacenado-por-lote',[AlmacenadoController::class,'obtenerAlmacenadoPorLote'])->name('almacenado.por-lote');
-
+    //RESÚMENES
     Route::get('reporte-lotes',[ReporteController::class,'obtenerLote'])->name('reporte-lotes.lotes');
+    Route::get('ranking-rectificado',[ReporteResumenController::class,'obtenerRankingRectificado'])->name('resumen.ranking-rectificado');
+    Route::get('ranking-congelado',[ReporteResumenController::class,'obtenerRankingCongelado'])->name('resumen.ranking-congelado');
+    Route::get('ranking-envasado',[ReporteResumenController::class,'obtenerRankingEnvasado'])->name('resumen.ranking-envasado');
+    Route::get('ranking-almacenado',[ReporteResumenController::class,'obtenerRankingAlmacenado'])->name('resumen.ranking-almacenado');
 });

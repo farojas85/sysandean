@@ -31,7 +31,9 @@
 <!-- Toastr -->
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
 <!-- Your application script -->
-<script src="{{ asset('plugins/chart.js/Chart.js') }}"></script>
+{{-- <script src="{{ asset('plugins/echarts/chart.min.js') }}"></script> --}}
+{{-- <script src="{{ asset('plugins/chart.js/chartjs-plugin-datalabels.min.js') }}"></script> --}}
+{{-- <script src="{{ asset('plugins/chart.js/chartjs-plugin-labels.min.js') }}"></script> --}}
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
@@ -40,6 +42,9 @@
 {{-- <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script> --}}
 <script src="{{ asset('plugins/vue/vue.js') }}"></script>
 <script src="{{ asset('plugins/axios/axios.js') }}"></script>
+<script src="{{ asset('plugins/apex-charts/apexcharts.min.js') }}"></script>
+{{-- <script src="{{ asset('plugins/apex-charts/locales/es.json') }}"></script> --}}
+<script src="{{ asset('plugins/apex-charts/vue-apexcharts.js') }}"></script>
 
 <script>
   window.Toast = Swal.mixin({
