@@ -532,7 +532,7 @@
             },
             obtenerRankingPlaqueados()
             {
-                axios.get('ranking-rectificado')
+                axios.get('ranking-plaqueado')
                 .then(respuesta =>{
                     let plaqueado = respuesta.data
                     this.graficaPlaqueado.colores=[]
