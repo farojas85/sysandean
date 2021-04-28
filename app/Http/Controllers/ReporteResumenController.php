@@ -9,6 +9,7 @@ use App\Models\Rectificado;
 use App\Models\Congelado;
 use App\Models\Envasado;
 use App\Models\Almacenado;
+use App\Models\Plaqueado;
 
 class ReporteResumenController extends Controller
 {
@@ -27,6 +28,29 @@ class ReporteResumenController extends Controller
             {
                 array_push($series,$recti->kilogramo);
                 array_push($labels,$recti->trabajador->nombres." ".$recti->trabajador->apellidos);
+            }
+        }
+        return response()->json([
+            'series'=> $series ,
+            'labels' => $labels
+        ]);
+    }
+    
+    public function obtenerRankingPlaqueado()
+    {
+        $plaqueado = Plaqueado::with('trabajador','lote')
+                            ->select('trabajador_id',
+                                DB::Raw('SUM(kilogramo_plaqueado) as kilogramo'))
+                            ->groupBy('trabajador_id')->get();
+        
+        $series = [];
+        $labels = [];
+        if($plaqueado)
+        {
+            foreach($plaqueado as $plaque)
+            {
+                array_push($series,$plaque->kilogramo);
+                array_push($labels,$plaque->trabajador->nombres." ".$plaque->trabajador->apellidos);
             }
         }
         return response()->json([

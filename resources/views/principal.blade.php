@@ -215,6 +215,29 @@
             <div class="card-header ui-sortable-handle" style="cursor: move;">
                 <h3 class="card-title">
                     <i class="fas fa-bars mr-1"></i>
+                    Ranking Plaqueado
+                </h3>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <plaqueado-chart type="bar" :series="graficaPlaqueado.series" 
+                            :options="graficaPlaqueado.chartOptions"></plaqueado-chart>
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header ui-sortable-handle" style="cursor: move;">
+                <h3 class="card-title">
+                    <i class="fas fa-bars mr-1"></i>
                     Ranking Congelados
                 </h3>
             </div><!-- /.card-header -->
@@ -244,8 +267,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8">
-                        <congelado-chart type="bar" :series="graficaEnvasado.series" 
-                            :options="graficaEnvasado.chartOptions"></congelado-chart>
+                        <envasado-chart type="bar" :series="graficaEnvasado.series" 
+                            :options="graficaEnvasado.chartOptions"></envasado-chart>
                     </div>
                     <div class="col-md-4">
 
@@ -267,8 +290,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-8">
-                        <congelado-chart type="bar" :series="graficaAlmacenado.series" 
-                            :options="graficaAlmacenado.chartOptions"></congelado-chart>
+                        <almacenado-chart type="bar" :series="graficaAlmacenado.series" 
+                            :options="graficaAlmacenado.chartOptions"></almacenado-chart>
                     </div>
                     <div class="col-md-4">
 
@@ -288,9 +311,10 @@
         components:{
             apexchart:VueApexCharts,
             RectificadoChart:VueApexCharts,
+            PlaqueadoChart:VueApexCharts,
             CongeladoChart:VueApexCharts,
             EnvasadoChart:VueApexCharts,
-            AlmacenadoChar:VueApexCharts
+            AlmacenadoChart:VueApexCharts
         },
         data: {
             lotes:[],
@@ -311,6 +335,12 @@
                 chartOptions:{}
             },
             graficaRectificado:{
+                series:[],
+                labels:[],
+                colores:[],
+                chartOptions:{},
+            },
+            graficaPlaqueado:{
                 series:[],
                 labels:[],
                 colores:[],
@@ -338,6 +368,7 @@
         created() {
             this.obtenerLotes()
             this.obtenerRankingRectificados()
+            this.obtenerRankingPlaqueados()
             this.obtenerRankingCongelados()
             this.obtenerRankingEnvasados()
             this.obtenerRankingAlmacenados()
@@ -480,6 +511,79 @@
                         },
                         title: {
                             text: 'Ranking de Rectificados por Trabajador',
+                            align: 'center',
+                            floating: true
+                        },
+                        tooltip: {
+                            theme: 'dark',
+                            x: {
+                                show: false
+                            },
+                            y: {
+                                title: {
+                                    formatter: function () {
+                                        return ''
+                                    }
+                                }
+                            }
+                        }
+                    }                   
+                })
+            },
+            obtenerRankingPlaqueados()
+            {
+                axios.get('ranking-rectificado')
+                .then(respuesta =>{
+                    let plaqueado = respuesta.data
+                    this.graficaPlaqueado.colores=[]
+                    plaqueado.labels.forEach(recti => {
+                        this.graficaPlaqueado.colores.push('#'+Math.floor(Math.random()*16777215).toString(16))
+                    })
+                    this.graficaPlaqueado.series = [ { data : plaqueado.series }] 
+                    this.graficaPlaqueado.chartOptions = {
+                        chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                        plotOptions: {
+                            bar: {
+                                barHeight: '100%',
+                                distributed: true,
+                                horizontal: true,
+                                dataLabels: {
+                                position: 'bottom'
+                                },
+                            }
+                        },
+                        colors:this.graficaPlaqueado.colores,
+                        dataLabels: {
+                            enabled: true,
+                            textAnchor: 'start',
+                            style: {
+                                colors: ['#fff']
+                            },
+                            formatter: function (val, opt) {
+                                return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+                            },
+                            offsetX: 0,
+                            dropShadow: {
+                                enabled: true
+                            }
+                        },
+                        stroke: {
+                            width: 1,
+                            colors: ['#fff']
+                        },
+                        xaxis: {
+                            categories: plaqueado.labels,
+                        },
+                        yaxis: {
+                            labels: {
+                                show: false
+                            }
+                        },
+                        title: {
+                            text: 'Ranking de Plaqueados por Trabajador',
                             align: 'center',
                             floating: true
                         },

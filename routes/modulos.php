@@ -107,6 +107,7 @@ Route::group(['middleware' => 'auth'], function(){
     //RESÚMENES
     Route::get('reporte-lotes',[ReporteController::class,'obtenerLote'])->name('reporte-lotes.lotes');
     Route::get('ranking-rectificado',[ReporteResumenController::class,'obtenerRankingRectificado'])->name('resumen.ranking-rectificado');
+    Route::get('ranking-plaqueado',[ReporteResumenController::class,'obtenerRankingPlaqueado'])->name('resumen.ranking-plaqueado');
     Route::get('ranking-congelado',[ReporteResumenController::class,'obtenerRankingCongelado'])->name('resumen.ranking-congelado');
     Route::get('ranking-envasado',[ReporteResumenController::class,'obtenerRankingEnvasado'])->name('resumen.ranking-envasado');
     Route::get('ranking-almacenado',[ReporteResumenController::class,'obtenerRankingAlmacenado'])->name('resumen.ranking-almacenado');
