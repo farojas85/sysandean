@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use  Spatie\Permission\Models\Role;
 
-class RoleController extends Controller
+use App\Http\Traits\PermissionRoleTrait;
+
+class PermissionRoleController extends Controller
 {
+    use PermissionRoleTrait;
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +37,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->guardarRolePermission($request);
     }
 
     /**
@@ -81,10 +83,5 @@ class RoleController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function listar()
-    {
-        return Role::select('id','name')->orderBy('id','asc')->get();
     }
 }

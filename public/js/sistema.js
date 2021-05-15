@@ -46,7 +46,15 @@ var app= new Vue({
             id:'',
             name:'',
             estadoCrud:'nuevo'
-        }
+        },
+        modelos:[],
+        permiso_role:{
+            role_id:'',
+            role_name:'',
+            modelo:'',
+            permission_name:[]
+        },
+        permisos_select:[]
     },
     created(){
         this.cambiarVista('Usuarios')
@@ -127,6 +135,7 @@ var app= new Vue({
                 case 'Usuarios':this.usuariosHabilitados();break;
                 case 'Trabajadores':this.trabajadoresHabilitados();break;
                 case 'Permisos':this.listarPermissions();break;
+                case 'Permisos/Roles':this.listarPermisoRole();break;
             }
         },
         cambiarPaginacionUsuario(event)
@@ -779,6 +788,80 @@ var app= new Vue({
                     `Ocurrió un Error: ${error.response.status}`
                 )
             })
+        },
+        listarModelos()
+        {
+            axios.get('permiso-role-modelos')
+            .then(respuesta => {
+                this.modelos = respuesta.data
+            })
+        },
+        listarPermisoRole()
+        {
+            this.obtenerRoles()
+            this.listarModelos()
+        },
+        mostrarRolePermisos(e)
+        {
+            this.permiso_role.modelo=e.target.value
+            axios.get('permiso-role-permisos',{params: this.permiso_role})
+                .then((response) => {
+                    let permi = response.data.permissions
+                    let role = response.data.role
+                    this.permisos_select = permi
+                    this.permiso_role.permission_name=[]
+                    this.permiso_role.role_name = role[0].name 
+                    if(role.length >0 )
+                    {
+                        if(role[0].permissions.length>0)
+                        {
+                                role[0].permissions.forEach(item => {
+                                    this.permiso_role.permission_name.push(item.name)
+                                })
+                        }
+                    }
+                    this.errores = []
+                })
+                .catch((errors) => {
+                    if(response = errors.response){
+                        this.errores = response.data.errors;
+        
+                    }
+                })
+        },
+        limpiarPermissionRole()
+        {
+            this.permiso_role.role_id=''
+            this.permiso_role.role_name=''
+            this.permiso_role.modelo=''
+            this.permiso_role.permission_name=[]
+            this.permisos_select = []
+        },
+        guardarRolePermiso()
+        {
+            axios.post('permiso-role-guardar',this.permiso_role)
+                .then((response) => {
+                    if(response.data.ok == 1)
+                    {
+                        swal.fire({
+                            icon : 'success',
+                            title : 'PERMISOS / ROLES',
+                            text : response.data.mensaje,
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor:"#1abc9c",
+                        }).then(respuesta => {
+                            if(respuesta.value) {
+                                this.limpiarPermissionRole()
+                            }
+                        })
+                    }
+                })
+                .catch((errors) => {
+                    if(response = errors.response) {
+                        this.errores = response.data.errors,
+                        console.clear()
+                    }
+                })
         }
     }
 })

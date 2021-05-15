@@ -7,7 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\PermissionController;
-
+use App\Http\Controllers\PermissionRoleController;
 
 Route::group(['middleware' => 'auth'], function(){
     //ROLES
@@ -35,4 +35,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('permiso-mostrar', [PermissionController::class,'show'])->name('permiso.mostrar');
     Route::post('permiso-eliminar',[PermissionController::class,'destroy'])->name('permiso.eliminar');
+
+    Route::get('permiso-role-modelos',[PermissionRoleController::class,'mostrarModelos'])->name('permiso-role.modelos');
+    Route::get('permiso-role-permisos',[PermissionRoleController::class,'mostrarRolePermisos'])->name('permiso-role.permisos');
+    Route::post('permiso-role-guardar',[PermissionRoleController::class,'store'])->name('permiso-role.guardar');
 });

@@ -27,8 +27,13 @@
         <button type="button" class="btn bg-purple" @click="cambiarVista('Trabajadores')">
             <i class="fas fa-user-tie"></i><br>Trabajadores
         </button>
-        <button type="button" class="btn bg-purple" @click="cambiarVista('Permisos')">
+        @can('permisos.inicio')
+        <button type="button" class="btn bg-maroon" @click="cambiarVista('Permisos')">
             <i class="fas fa-tags"></i><br>Permisos
+        </button>
+        @endcan
+        <button type="button" class="btn bg-pink" @click="cambiarVista('Permisos/Roles')">
+            <i class="fas fa-user-tag"></i><br>Permisos / Roles
         </button>
     </div>
     <!-- /.card-header -->
@@ -36,6 +41,7 @@
         <template v-if="vista=='Usuarios'">@include('sistema.usuario.inicio')</template>
         <template v-else-if="vista=='Trabajadores'">@include('sistema.trabajador.inicio')</template>
         <template v-else-if="vista=='Permisos'">@include('sistema.permission.inicio')</template>
+        <template v-else-if="vista=='Permisos/Roles'">@include('sistema.permission-role.inicio')</template>
     </div>
     <!-- /.card-body -->
 </div>
