@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\TipoDocumentoController;
+use App\Http\Controllers\PermissionController;
 
 
 Route::group(['middleware' => 'auth'], function(){
@@ -31,4 +32,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('trabajador-eliminar-temporal',[TrabajadorController::class,'destroyTemporal'])->name('trabajador.eliminar-temporal');
     Route::post('trabajador-eliminar-permanente',[TrabajadorController::class,'destroyPermanente'])->name('trabajador.eliminar-permanente');
     Route::post('trabajador-restaurar',[TrabajadorController::class,'restaurar'])->name('trabajador.restaurar');
+
+    Route::get('permiso-mostrar', [PermissionController::class,'show'])->name('permiso.mostrar');
+    Route::post('permiso-eliminar',[PermissionController::class,'destroy'])->name('permiso.eliminar');
 });

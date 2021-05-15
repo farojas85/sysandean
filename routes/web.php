@@ -14,6 +14,7 @@ use App\Http\Controllers\RectificadoController;
 use App\Http\Controllers\CongeladoController;
 use App\Http\Controllers\EnvasadoController;
 use App\Http\Controllers\AlmacenadoController;
+use App\Http\Controllers\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,7 @@ Route::group(['prefix' => 'sistema', 'middleware' => 'auth'], function(){
 Route::group(['middleware' => 'auth'], function() {
     Route::resource('user', UserController::class);
     Route::resource('trabajador', TrabajadorController::class);
+    Route::resource('permiso', PermissionController::class);
     Route::resource('materia-prima', MateriaPrimaController::class);
     Route::resource('lote', LoteController::class);
     Route::resource('pelado-quimico', PeladoQuimicoController::class);

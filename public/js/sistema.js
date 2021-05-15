@@ -36,6 +36,16 @@ var app= new Vue({
             lugar_nacimiento:'',
             estado:'',
             estadoCrud:'nuevo'
+        },
+        pagina_permiso:5,
+        buscar_permiso:'',
+        permisos:[],
+        total_permisos:0,
+        show_permisos:'habilitados',
+        permiso:{
+            id:'',
+            name:'',
+            estadoCrud:'nuevo'
         }
     },
     created(){
@@ -86,6 +96,28 @@ var app= new Vue({
             }
             return pagesArray;
         },
+        isActivedPermiso() {
+            return this.permisos.current_page;
+        },
+        pagesNumberPermiso() {
+            if (!this.permisos.to) {
+                return [];
+            }
+            var from = this.permisos.current_page - this.offset;
+            if (from < 1) {
+                from = 1;
+            }
+            var to = from + (this.offset * 2);
+            if (to >= this.permisos.last_page) {
+                to = this.permisos.last_page;
+            }
+            var pagesArray = [];
+            while (from <= to) {
+                pagesArray.push(from);
+                from++;
+            }
+            return pagesArray;
+        },
     },
     methods:{
         cambiarVista(vista){
@@ -94,6 +126,7 @@ var app= new Vue({
             {
                 case 'Usuarios':this.usuariosHabilitados();break;
                 case 'Trabajadores':this.trabajadoresHabilitados();break;
+                case 'Permisos':this.listarPermissions();break;
             }
         },
         cambiarPaginacionUsuario(event)
@@ -613,5 +646,139 @@ var app= new Vue({
                 }
             })
         },
+        cambiarPaginacionPermiso(event)
+        {
+            this.pagina_permiso = event.target.value
+            this.listarPermisos()
+            this.getResultPermisos()
+        },
+        listarPermissions()
+        {
+            this.listarPermisos()
+            this.getResultPermisos()
+        },
+        listarPermisos() {
+            axios.get('permiso?pagina='+this.pagina_permiso+'&buscar='+this.buscar_permiso)
+            .then((respuesta) => {
+                this.permisos=respuesta.data
+                this.total_permisos = this.permisos.total
+            })
+        },
+        getResultPermisos(page=1){
+            axios.get('permiso?page='+page+'&pagina='+this.pagina_permiso+'&buscar='+this.buscar_permiso)
+            .then(response => {
+                this.permisos = response.data
+                this.total_permisos = this.permisos.total
+            });
+        },
+        changePagePermisos(page) {
+            this.permisos.current_page = page;
+            this.getResultPermisos(page)
+        },
+        buscarPermiso()
+        {
+            this.listarPermisos()
+            this.getResultPermisos()
+        },
+        limpiarPermiso() {
+            this.errores=[]
+            this.permiso.id=''
+            this.permiso.name = ''
+        },
+        nuevoPermiso(){
+            this.limpiarPermiso()
+            this.permiso.estadoCrud='nuevo'
+            $('#modal-permiso-title').html('Nuevo Permiso')        
+            $('#modal-permiso').modal('show')
+        },
+        guardarPermiso() {
+            axios.post('permiso',this.permiso)
+            .then((respuesta) =>{
+                if(respuesta.data.ok==1)
+                {
+                    Toast.fire({icon:'success','title' : respuesta.data.mensaje})
+                    $('#modal-permiso').modal('hide')
+                    this.errores=[]
+                    this.listarPermissions()
+                }   
+            })
+            .catch((errors) => {
+                if(response = errors.response) {
+                    this.errores = response.data.errors
+                    //console.clear()
+                }
+            })
+        },
+        mostrarDatosPermiso(permiso)
+        {
+            this.limpiarPermiso()
+            axios.get('permiso-mostrar?id='+permiso)
+            .then((respuesta) =>{
+                let permi = respuesta.data
+                this.permiso.id = permi.id
+                this.permiso.name = permi.name
+                             
+            })
+        },
+        mostrarPermiso(permiso)
+        {
+            this.mostrarDatosPermiso(permiso)
+            this.permiso.estadoCrud = 'mostrar'  
+            $('#modal-permiso-title').html('Mostrar Permiso')        
+            $('#modal-permiso').modal('show')
+        },
+        editarPermiso(permiso)
+        {
+            this.mostrarDatosPermiso(permiso)
+            this.permiso.estadoCrud = 'editar'  
+            $('#modal-permiso-title').html('Editar Permiso')        
+            $('#modal-permiso').modal('show')
+        },
+        eliminarPermiso(permiso)
+        {
+            Swal.fire({
+                title:"Trabajador",
+                text:'¿Está Seguro de Eliminar el Permiso?',
+                icon:"question",
+                showCancelButton: true,
+                confirmButtonText:"<i class='fas fa-check'></i> Si",
+                confirmButtonColor:"#6610f2",
+                cancelButtonText:"<i class='fas fa-times'></i> No",
+                cancelButtonColor:"#e3342f"
+            }).then( (response) => {
+                if(response.value) {
+                    axios.post('permiso-eliminar',{id:permiso})
+                    .then((response) => (
+                        swal.fire({
+                            icon : 'success',
+                            title : 'Permisos',
+                            text : response.data.mensaje,
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor:"#1abc9c",
+                        }).then(respuesta => {
+                            if(respuesta.value) {
+                                this.listarPermissions()
+                            }
+                        })
+                    ))
+                    .catch((errors) => {
+                        if(response = errors.response) {
+                            this.errores = response.data.errors
+                            swal.fire({
+                                icon : 'error',
+                                title : 'Trabajadores',
+                                text : this.errores,
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor:"#1abc9c",
+                            })
+                        }
+                    })
+                }
+            }).catch(error => {
+                swal.showValidationError(
+                    `Ocurrió un Error: ${error.response.status}`
+                )
+            })
+        }
     }
 })

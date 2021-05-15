@@ -27,11 +27,15 @@
         <button type="button" class="btn bg-purple" @click="cambiarVista('Trabajadores')">
             <i class="fas fa-user-tie"></i><br>Trabajadores
         </button>
+        <button type="button" class="btn bg-purple" @click="cambiarVista('Permisos')">
+            <i class="fas fa-tags"></i><br>Permisos
+        </button>
     </div>
     <!-- /.card-header -->
     <div class="card-body" id="detalle-inicio">
         <template v-if="vista=='Usuarios'">@include('sistema.usuario.inicio')</template>
         <template v-else-if="vista=='Trabajadores'">@include('sistema.trabajador.inicio')</template>
+        <template v-else-if="vista=='Permisos'">@include('sistema.permission.inicio')</template>
     </div>
     <!-- /.card-body -->
 </div>
