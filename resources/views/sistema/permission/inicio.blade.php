@@ -2,10 +2,12 @@
     <div class="card-header">
         <h3 class="card-title">
             Listado Permisos&nbsp;
+            @can('permisos.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevoPermiso">
                 <i class="fas fa-plus"></i> Nuevo Permiso
             </button>
+            @endcan
         </h3>
     </div>
     <div class="card-body" id="listado-permisos">

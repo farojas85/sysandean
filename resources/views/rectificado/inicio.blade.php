@@ -24,10 +24,12 @@
         <h3 class="card-title">
             <i class="fas fa-swimming-pool"></i> Listado de Rectificados
             &nbsp;
+            @can('rectificados.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevo">
                 <i class="fas fa-plus"></i> Nuevo
             </button>
+            @endcan
         </h3>
     </div>
     <div class="card-body" id="detalle-inicio">
@@ -107,24 +109,32 @@
                                     </td>
                                     <td class="text-center">
                                         <template v-if="rectificado.deleted_at">
+                                            @can('rectificados.restaurar')
                                             <button type="button" class="btn bg-purple btn-xs"
                                                         title="Restaurar Rectificado" @click="restaurar(rectificado.id)">
                                                 <i class="fas fa-trash-restore"></i>
                                             </button>
+                                            @endcan
                                         </template>
                                         <template v-else>
+                                            @can('rectificados.mostrar')
                                             <button type="button" class="btn bg-info btn-xs"
                                                     title="Mostrar Rectificado" @click="mostrar(rectificado.id)">
                                                 <i class="fa fa-eye"></i>
                                             </button>
+                                            @endcan
+                                            @can('rectificados.editar')
                                             <button type="button" class="btn btn-warning btn-xs"
                                                     title="Editar Rectificado" @click="editar(rectificado.id)">
                                                 <i class="fas fa-edit"></i>
                                             </button>
+                                            @endcan
+                                            @can('rectificados.eliminar')
                                             <button type="button" class="btn btn-danger btn-xs"
                                                     title="Eliminar Rectificado" @click="eliminar(rectificado.id)">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
+                                            @endcan
                                         </template>
                                     </td>
                                 </tr>

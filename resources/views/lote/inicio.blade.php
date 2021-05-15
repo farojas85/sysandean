@@ -24,10 +24,12 @@
         <h3 class="card-title">
             <i class="fas fa-clone"></i> Listado de Lotes
             &nbsp;
+            @can('lotes.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevo">
                 <i class="fas fa-plus"></i> Nuevo Lote
             </button>
+            @endcan
         </h3>
     </div>
     <div class="card-body" id="detalle-inicio">
@@ -102,24 +104,32 @@
                                 <td class="text-center">@{{ lote.enanas +'|'+ (parseFloat(lote.enanas_lote)).toFixed(1)+'%' }}</td>
                                 <td>
                                     <template v-if="lote.deleted_at">
+                                        @can('lotes.restaurar')
                                         <button type="button" class="btn bg-purple btn-xs"
                                                     title="Restaurar Lote" @click="restaurar(lote.id)">
                                             <i class="fas fa-trash-restore"></i>
                                         </button>
+                                        @endcan
                                     </template>
                                     <template v-else>
+                                        @can('lotes.mostrar')
                                         <button type="button" class="btn bg-info btn-xs"
                                                 title="Mostrar lote" @click="mostrar(lote.id)">
                                             <i class="fa fa-eye"></i>
                                         </button>
+                                        @endcan
+                                        @can('lotes.editar')
                                         <button type="button" class="btn btn-warning btn-xs"
                                                 title="Editar lote" @click="editar(lote.id)">
                                             <i class="fas fa-edit"></i>
                                         </button>
+                                        @endcan
+                                        @can('lotes.eliminar')
                                         <button type="button" class="btn btn-danger btn-xs"
                                                 title="Eliminar lote" @click="eliminar(lote.id)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
+                                        @endcan
                                     </template>
                                 </td>
                             </tr>

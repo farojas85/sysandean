@@ -24,10 +24,12 @@
         <h3 class="card-title">
             <i class="fas fa-parking"></i> Listado de Envasados
             &nbsp;
+            @can('envasados.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevo">
                 <i class="fas fa-plus"></i> Nuevo
             </button>
+            @endcan
         </h3>
     </div>
     <div class="card-body" id="detalle-inicio">
@@ -107,24 +109,32 @@
                                     </td>
                                     <td class="text-center">
                                         <template v-if="envasado.deleted_at">
+                                            @can('envasados.restaurar')
                                             <button type="button" class="btn bg-purple btn-xs"
                                                         title="Restaurar envasado" @click="restaurar(envasado.id)">
                                                 <i class="fas fa-trash-restore"></i>
                                             </button>
+                                            @endcan
                                         </template>
                                         <template v-else>
+                                            @can('envasados.mostrar')
                                             <button type="button" class="btn bg-info btn-xs"
                                                     title="Mostrar envasado" @click="mostrar(envasado.id)">
                                                 <i class="fa fa-eye"></i>
                                             </button>
+                                            @endcan
+                                            @can('envasados.editar')
                                             <button type="button" class="btn btn-warning btn-xs"
                                                     title="Editar envasado" @click="editar(envasado.id)">
                                                 <i class="fas fa-edit"></i>
                                             </button>
+                                            @endcan
+                                            @can('envasados.eliminar')
                                             <button type="button" class="btn btn-danger btn-xs"
                                                     title="Eliminar envasado" @click="eliminar(envasado.id)">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
+                                            @endcan
                                         </template>
                                     </td>
                                 </tr>

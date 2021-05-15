@@ -48,6 +48,7 @@
                         </p>
                     </a>
                 </li>
+                @can('sistema.inicio')
                 <li class="nav-item">
                     <a href="sistema" class="nav-link {{ Request::is('sistema') ? 'active' :''}}">
                         <i class="nav-icon fas fa-cogs text-warning"></i>
@@ -56,6 +57,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('materia-prima.inicio')
                 <li class="nav-item">
                     <a href="materia-prima" class="nav-link {{ Request::is('materia-prima') ? 'active' :''}}">
                         <i class="nav-icon fas fa-box text-green"></i>
@@ -64,6 +67,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('lote.inicio')
                 <li class="nav-item">
                     <a href="lote" class="nav-link {{ Request::is('lote') ? 'active' :''}}">
                         <i class="nav-icon fas fa-clone text-pink"></i>
@@ -72,6 +77,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('pelado-quimico.inicio')
                 <li class="nav-item">
                     <a href="pelado-quimico" class="nav-link {{ Request::is('pelado-quimico') ? 'active' :''}}">
                         <i class="nav-icon fas fa-carrot text-orange"></i>
@@ -80,6 +87,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('rectificados.inicio')
                 <li class="nav-item">
                     <a href="rectificado" class="nav-link {{ Request::is('rectificado') ? 'active' :''}}">
                         <i class="nav-icon fas fa-swimming-pool text-white"></i>
@@ -88,6 +97,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('plaqueados.inicio')
                 <li class="nav-item">
                     <a href="plaqueado" class="nav-link {{ Request::is('plaqueado') ? 'active' :''}}">
                         <i class="nav-icon fab fa-buffer text-danger"></i>
@@ -96,6 +107,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('congelados.inicio')
                 <li class="nav-item">
                     <a href="congelado" class="nav-link  {{ Request::is('congelado') ? 'active' :''}}">
                         <i class="nav-icon fas fa-icicles text-cyan"></i>
@@ -104,6 +117,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('envasados.inicio')
                 <li class="nav-item">
                     <a href="envasado" class="nav-link {{ Request::is('envasado') ? 'active' :''}}">
                         <i class="nav-icon fas fa-parking text-lime"></i>
@@ -112,6 +127,8 @@
                         </p>
                     </a>
                 </li>
+                @endcan
+                @can('almacenados.inicio')
                 <li class="nav-item">
                     <a href="almacenado" class="nav-link {{ Request::is('almacenado') ? 'active' :''}}">
                         <i class="nav-icon fas fa-warehouse text-white"></i>
@@ -120,6 +137,7 @@
                         </p>
                     </a>
                 </li>
+                @endcan
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

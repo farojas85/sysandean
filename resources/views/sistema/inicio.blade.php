@@ -26,20 +26,26 @@
             <i class="fas fa-user-shield"></i><br>Roles
         </button>
         @endcan
+        @can('usuarios.inicio')
         <button type="button" class="btn btn-primary" @click="cambiarVista('Usuarios')">
             <i class="fas fa-users"></i><br>Usuarios
         </button>
+        @endcan
+        @can('trabajadores.inicio')
         <button type="button" class="btn bg-purple" @click="cambiarVista('Trabajadores')">
             <i class="fas fa-user-tie"></i><br>Trabajadores
         </button>
+        @endcan
         @can('permisos.inicio')
         <button type="button" class="btn bg-maroon" @click="cambiarVista('Permisos')">
             <i class="fas fa-tags"></i><br>Permisos
         </button>
         @endcan
+        @can('permiso-role.inicio')
         <button type="button" class="btn bg-pink" @click="cambiarVista('Permisos/Roles')">
             <i class="fas fa-user-tag"></i><br>Permisos / Roles
         </button>
+        @endcan
     </div>
     <!-- /.card-header -->
     <div class="card-body" id="detalle-inicio">

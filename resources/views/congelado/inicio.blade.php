@@ -24,10 +24,12 @@
         <h3 class="card-title">
             <i class="fas fa-icicles"></i> Listado de Congelados
             &nbsp;
+            @can('congelados.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevo">
                 <i class="fas fa-plus"></i> Nuevo
             </button>
+            @endcan
         </h3>
     </div>
     <div class="card-body" id="detalle-inicio">
@@ -107,24 +109,32 @@
                                     </td>
                                     <td class="text-center">
                                         <template v-if="congelado.deleted_at">
+                                            @can('congelados.restaurar')
                                             <button type="button" class="btn bg-purple btn-xs"
                                                         title="Restaurar congelado" @click="restaurar(congelado.id)">
                                                 <i class="fas fa-trash-restore"></i>
                                             </button>
+                                            @endcan
                                         </template>
                                         <template v-else>
+                                            @can('congelados.mostrar')
                                             <button type="button" class="btn bg-info btn-xs"
                                                     title="Mostrar congelado" @click="mostrar(congelado.id)">
                                                 <i class="fa fa-eye"></i>
                                             </button>
+                                            @endcan
+                                            @can('congelados.editar')
                                             <button type="button" class="btn btn-warning btn-xs"
                                                     title="Editar congelado" @click="editar(congelado.id)">
                                                 <i class="fas fa-edit"></i>
                                             </button>
+                                            @endcan
+                                            @can('congelados.eliminar')
                                             <button type="button" class="btn btn-danger btn-xs"
                                                     title="Eliminar congelado" @click="eliminar(congelado.id)">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
+                                            @endcan
                                         </template>
                                     </td>
                                 </tr>

@@ -24,10 +24,12 @@
         <h3 class="card-title">
             <i class="fas fa-carrot"></i> Listado
             &nbsp;
+            @can('pelado-quimico.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevo">
                 <i class="fas fa-plus"></i> Nuevo
             </button>
+            @endcan
         </h3>
     </div>
     <div class="card-body" id="detalle-inicio">
@@ -100,24 +102,32 @@
                                 <td class="text-center" v-text="pelado.fecha"></td>
                                 <td class="text-center">
                                     <template v-if="pelado.deleted_at">
+                                        @can('pelado-quimico.restaurar')
                                         <button type="button" class="btn bg-purple btn-xs"
                                                     title="Restaurar pelado" @click="restaurar(pelado.id)">
                                             <i class="fas fa-trash-restore"></i>
                                         </button>
+                                        @endcan
                                     </template>
                                     <template v-else>
+                                        @can('pelado-quimico.mostrar')
                                         <button type="button" class="btn bg-info btn-xs"
                                                 title="Mostrar pelado" @click="mostrar(pelado.id)">
                                             <i class="fa fa-eye"></i>
                                         </button>
+                                        @endcan
+                                        @can('pelado-quimico.editar')
                                         <button type="button" class="btn btn-warning btn-xs"
                                                 title="Editar pelado" @click="editar(pelado.id)">
                                             <i class="fas fa-edit"></i>
                                         </button>
+                                        @endcan
+                                        @can('pelado-quimico.eliminar')
                                         <button type="button" class="btn btn-danger btn-xs"
                                                 title="Eliminar pelado" @click="eliminar(pelado.id)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
+                                        @endcan
                                     </template>
                                 </td>
                             </tr>

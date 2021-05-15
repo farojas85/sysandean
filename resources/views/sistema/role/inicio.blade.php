@@ -2,10 +2,12 @@
     <div class="card-header">
         <h3 class="card-title">
             Listado Roles&nbsp;
+            @can('roles.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevoRole">
                 <i class="fas fa-plus"></i> Nuevo Rol
             </button>
+            @endcan
         </h3>
     </div>
     <div class="card-body" id="listado-roles">
@@ -56,23 +58,66 @@
                                 <td v-text="role.name"></td>
                                 <td v-text="role.guard_name"></td>
                                 <td>
+                                    @can('roles.mostrar')
                                     <button type="button" class="btn bg-info btn-xs"
                                             title="Mostrar Role" @click="mostrarRole(role.id)">
                                         <i class="fa fa-eye"></i>
                                     </button>
+                                    @endcan
+                                    @can('roles.editar')
                                     <button type="button" class="btn btn-warning btn-xs"
                                             title="Editar Role" @click="editarRole(role.id)">
                                         <i class="fas fa-edit"></i>
                                     </button>
+                                    @endcan
+                                    @can('roles.eliminar')
                                     <button type="button" class="btn btn-danger btn-xs"
                                             title="Eliminar Role" @click="eliminarRole(role.id)">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
+                                    @endcan
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <nav>
+                    <ul class="pagination">
+                        <li v-if="roles.current_page >=2" class="page-item">
+                            <a href="" aria-label="First" class="page-link"
+                            @click.prevent="changePageRoles(0)">
+                                <span><i class="fas fa-fast-backward"></i></span>
+                            </a>
+                        </li>
+                        <li v-if="roles.current_page > 1" class="page-item">
+                            <a href="" aria-label="Previous" class="page-link"
+                            @click.prevent="changePageRoles(roles.current_page - 1)">
+                                <span><i class="fas fa-backward"></i></span>
+                            </a>
+                        </li>
+                        <li v-for="page in pagesNumberRole" class="page-item"
+                            v-bind:class="[ page == isActivedRole ? 'active' : '']">
+                            <a href="" class="page-link"
+                                @click.prevent="changePageRoles(page)">@{{ page }}</a>
+                        </li>
+                        <li v-if="roles.current_page < roles.last_page" class="page-item">
+                            <a href="" aria-label="Next" class="page-link"
+                                @click.prevent="changePageRoles(roles.current_page + 1)">
+                                <span aria-hidden="true"><i class="fas fa-forward"></i></span>
+                            </a>
+                        </li>
+                        <li v-if="roles.current_page < roles.last_page-1" class="page-item">
+                            <a href="" aria-label="Last" class="page-link"
+                                @click.prevent="changePageRoles(roles.last_page)">
+                                <span aria-hidden="true"><i class="fas fa-fast-forward"></i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

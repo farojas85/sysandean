@@ -24,10 +24,12 @@
         <h3 class="card-title">
             <i class="fas fa-warehouse"></i> Listado de Almacenado
             &nbsp;
+            @can('almacenados.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevo">
                 <i class="fas fa-plus"></i> Nuevo
             </button>
+            @endcan
         </h3>
     </div>
     <div class="card-body" id="detalle-inicio">
@@ -107,24 +109,32 @@
                                     </td>
                                     <td class="text-center">
                                         <template v-if="almacenado.deleted_at">
+                                            @can('almacenados.restaurar')
                                             <button type="button" class="btn bg-purple btn-xs"
                                                         title="Restaurar almacenado" @click="restaurar(almacenado.id)">
                                                 <i class="fas fa-trash-restore"></i>
                                             </button>
+                                            @endcan
                                         </template>
                                         <template v-else>
+                                            @can('almacenados.mostrar')
                                             <button type="button" class="btn bg-info btn-xs"
                                                     title="Mostrar almacenado" @click="mostrar(almacenado.id)">
                                                 <i class="fa fa-eye"></i>
                                             </button>
+                                            @endcan
+                                            @can('almacenados.editar')
                                             <button type="button" class="btn btn-warning btn-xs"
                                                     title="Editar almacenado" @click="editar(almacenado.id)">
                                                 <i class="fas fa-edit"></i>
                                             </button>
+                                            @endcan
+                                            @can('almacenados.eliminar')
                                             <button type="button" class="btn btn-danger btn-xs"
                                                     title="Eliminar almacenado" @click="eliminar(almacenado.id)">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
+                                            @endcan
                                         </template>
                                     </td>
                                 </tr>

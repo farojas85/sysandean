@@ -2,10 +2,12 @@
     <div class="card-header">
         <h3 class="card-title">
             Listado Trabajador&nbsp;
+            @can('trabajadores.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevoTrabajador">
                 <i class="fas fa-plus"></i> Nuevo Trabajador
             </button>
+            @endcan
         </h3>
     </div>
     <!-- /.card-header -->
@@ -75,24 +77,32 @@
                                 </td>
                                 <td>
                                     <template v-if="trabajador.deleted_at">
+                                        @can('trabajadores.restaurar')
                                         <button type="button" class="btn bg-purple btn-xs"
                                                     title="Restaurar Trabajador" @click="restaurarTrabajador(trabajador.id)">
                                             <i class="fas fa-trash-restore"></i>
                                         </button>
+                                        @endcan
                                     </template>
                                     <template v-else>
+                                        @can('trabajadores.mostrar')
                                         <button type="button" class="btn bg-info btn-xs"
                                                 title="Mostrar Trabajador" @click="mostrarTrabajador(trabajador.id)">
                                             <i class="fa fa-eye"></i>
                                         </button>
+                                        @endcan
+                                        @can('trabajadores.editar')
                                         <button type="button" class="btn btn-warning btn-xs"
                                                 title="Editar Trabajador" @click="editarTrabajador(trabajador.id)">
                                             <i class="fas fa-edit"></i>
                                         </button>
+                                        @endcan
+                                        @can('trabajadores.eliminar')
                                         <button type="button" class="btn btn-danger btn-xs"
                                                 title="Eliminar Trabajador" @click="eliminarTrabajador(trabajador.id)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
+                                        @endcan
                                     </template>
                                 </td>
                             </tr>

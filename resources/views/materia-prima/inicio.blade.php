@@ -24,10 +24,12 @@
         <h3 class="card-title">
             <i class="fas fa-box"></i> Listado de Materias Primas
             &nbsp;
+            @can('materia-prima.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevo">
                 <i class="fas fa-plus"></i> Nueva Materia Prima
             </button>
+            @endcan
         </h3>
     </div>
     <!-- /.card-header -->
@@ -93,24 +95,32 @@
                                 <td v-html="materia.fecha_modificada"></td>
                                 <td>
                                     <template v-if="materia.deleted_at">
+                                        @can('materia-prima.restaurar')
                                         <button type="button" class="btn bg-purple btn-xs"
                                                     title="Restaurar Materia Prima" @click="restaurar(materia.id)">
                                             <i class="fas fa-trash-restore"></i>
                                         </button>
+                                        @endcan
                                     </template>
                                     <template v-else>
+                                        @can('materia-prima.mostrar')
                                         <button type="button" class="btn bg-info btn-xs"
                                                 title="Mostrar Materia Prima" @click="mostrar(materia.id)">
                                             <i class="fa fa-eye"></i>
                                         </button>
+                                        @endcan
+                                        @can('materia-prima.editar')
                                         <button type="button" class="btn btn-warning btn-xs"
                                                 title="Editar Materia prima" @click="editar(materia.id)">
                                             <i class="fas fa-edit"></i>
                                         </button>
+                                        @endcan
+                                        @can('materia-prima.eliminar')
                                         <button type="button" class="btn btn-danger btn-xs"
                                                 title="Eliminar Materia Prima" @click="eliminar(materia.id)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
+                                        @endcan
                                     </template>
                                 </td>
                             </tr>

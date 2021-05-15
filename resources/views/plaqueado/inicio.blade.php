@@ -24,10 +24,12 @@
         <h3 class="card-title">
             <i class="fab fa-buffer"></i> Listado de Plaqueados
             &nbsp;
+            @can('plaqueados.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevo">
                 <i class="fas fa-plus"></i> Nuevo
             </button>
+            @endcan
         </h3>
     </div>
     <div class="card-body" id="detalle-inicio">
@@ -107,24 +109,32 @@
                                     </td>
                                     <td class="text-center">
                                         <template v-if="plaqueado.deleted_at">
+                                            @can('plaqueados.restaurar')
                                             <button type="button" class="btn bg-purple btn-xs"
                                                         title="Restaurar Plaqueado" @click="restaurar(plaqueado.id)">
                                                 <i class="fas fa-trash-restore"></i>
                                             </button>
+                                            @endcan
                                         </template>
                                         <template v-else>
+                                            @can('plaqueados.mostrar')
                                             <button type="button" class="btn bg-info btn-xs"
                                                     title="Mostrar Plaqueado" @click="mostrar(plaqueado.id)">
                                                 <i class="fa fa-eye"></i>
                                             </button>
+                                            @endcan
+                                            @can('plaqueados.editar')
                                             <button type="button" class="btn btn-warning btn-xs"
                                                     title="Editar Plaqueado" @click="editar(plaqueado.id)">
                                                 <i class="fas fa-edit"></i>
                                             </button>
+                                            @endcan
+                                            @can('plaqueados.eliminar')
                                             <button type="button" class="btn btn-danger btn-xs"
                                                     title="Eliminar Plaqueado" @click="eliminar(plaqueado.id)">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
+                                            @endcan
                                         </template>
                                     </td>
                                 </tr>

@@ -56,11 +56,13 @@
                                     @{{ permiso.name }}
                                 </label>
                             </div>
+                            @can('permiso-role.guardar')
                             <div class="row container-fluid text-center" v-if="permiso_role.modelo">
                                 <button type="button" class="btn btn-success" @click="guardarRolePermiso">
                                     <i class="fas fa-save"></i> Guardar
                                 </button>
                             </div>
+                            @endcan
                         </div>
                     </div>
                 </div>

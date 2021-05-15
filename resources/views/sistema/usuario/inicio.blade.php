@@ -2,10 +2,12 @@
     <div class="card-header">
         <h3 class="card-title">
             Listado Usuarios&nbsp;
+            @can('usuarios.crear')
             <button type="button" class="btn btn-danger btn-sm"
                 title="Nuevo usuario" @click="nuevoUsuario">
                 <i class="fas fa-plus"></i> Nuevo Usuario
             </button>
+            @endcan
         </h3>
     </div>
     <!-- /.card-header -->
@@ -79,24 +81,32 @@
                                 </td>
                                 <td>
                                     <template v-if="usuario.deleted_at">
+                                        @can('usuarios.restaurar')
                                         <button type="button" class="btn bg-purple btn-xs"
                                                     title="Restaurar Usuario" @click="restaurarUsuario(usuario.id)">
                                             <i class="fas fa-trash-restore"></i>
                                         </button>
+                                        @endcan
                                     </template>
                                     <template v-else>
+                                        @can('usuarios.mostrar')
                                         <button type="button" class="btn bg-info btn-xs"
                                                 title="Mostrar Usuario" @click="mostrarUsuario(usuario.id)">
                                             <i class="fa fa-eye"></i>
                                         </button>
+                                        @endcan
+                                        @can('usuarios.editar')
                                         <button type="button" class="btn btn-warning btn-xs"
                                                 title="Editar Usuario" @click="editarUsuario(usuario.id)">
                                             <i class="fas fa-edit"></i>
                                         </button>
+                                        @endcan
+                                        @can('usuarios.eliminar')
                                         <button type="button" class="btn btn-danger btn-xs"
                                                 title="Eliminar Usuario" @click="eliminarUsuario(usuario.id)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
+                                        @endcan
                                     </template>
                                 </td>
                             </tr>
@@ -147,4 +157,3 @@
 </div>
 @include('sistema.usuario.form')
 @include('sistema.usuario.mostrar')
-        
