@@ -68,7 +68,7 @@
                     </a>
                 </li>
                 @endcan
-                @can('lote.inicio')
+                @can('lotes.inicio')
                 <li class="nav-item">
                     <a href="lote" class="nav-link {{ Request::is('lote') ? 'active' :''}}">
                         <i class="nav-icon fas fa-clone text-pink"></i>
