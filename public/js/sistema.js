@@ -54,10 +54,19 @@ var app= new Vue({
             modelo:'',
             permission_name:[]
         },
-        permisos_select:[]
+        permisos_select:[],
+        role:{
+            id:'',
+            name:'',
+            estadoCrud:'nuevo'
+        },
+        pagina_role:5,
+        buscar_role:'',
+        roles:[],
+        total_roles:0,
     },
     created(){
-        this.cambiarVista('Usuarios')
+        this.cambiarVista('Roles')
     },
     computed:{
         isActivedUsuario() {
@@ -126,12 +135,35 @@ var app= new Vue({
             }
             return pagesArray;
         },
+        isActivedRole() {
+            return this.roles.current_page;
+        },
+        pagesNumberRole() {
+            if (!this.roles.to) {
+                return [];
+            }
+            var from = this.roles.current_page - this.offset;
+            if (from < 1) {
+                from = 1;
+            }
+            var to = from + (this.offset * 2);
+            if (to >= this.roles.last_page) {
+                to = this.roles.last_page;
+            }
+            var pagesArray = [];
+            while (from <= to) {
+                pagesArray.push(from);
+                from++;
+            }
+            return pagesArray;
+        },
     },
     methods:{
         cambiarVista(vista){
             this.vista = vista
             switch(this.vista)
             {
+                case 'Roles': this.listarRolesting();break;
                 case 'Usuarios':this.usuariosHabilitados();break;
                 case 'Trabajadores':this.trabajadoresHabilitados();break;
                 case 'Permisos':this.listarPermissions();break;
@@ -746,7 +778,7 @@ var app= new Vue({
         eliminarPermiso(permiso)
         {
             Swal.fire({
-                title:"Trabajador",
+                title:"PERMISOS",
                 text:'¿Está Seguro de Eliminar el Permiso?',
                 icon:"question",
                 showCancelButton: true,
@@ -775,7 +807,7 @@ var app= new Vue({
                             this.errores = response.data.errors
                             swal.fire({
                                 icon : 'error',
-                                title : 'Trabajadores',
+                                title : 'Roles',
                                 text : this.errores,
                                 confirmButtonText: 'Aceptar',
                                 confirmButtonColor:"#1abc9c",
@@ -862,6 +894,146 @@ var app= new Vue({
                         console.clear()
                     }
                 })
-        }
+        },
+        listarRolesting()
+        {
+            this.listarRoles()
+            this.getResultRoles()
+        },
+        cambiarPaginacionRole(event)
+        {
+            this.pagina_role = event.target.value
+            this.listarRoles()
+            this.getResultRoles()
+        },
+        listarRoles() {
+            axios.get('role?pagina='+this.pagina_role+'&buscar='+this.buscar_role)
+            .then((respuesta) => {
+                this.roles=respuesta.data
+                this.total_roles = this.roles.total
+            })
+        },
+        getResultRoles(page=1){
+            axios.get('role?page='+page+'&pagina='+this.pagina_role+'&buscar='+this.buscar_role)
+            .then(response => {
+                this.roles = response.data
+                this.total_roles = this.roles.total
+            });
+        },
+        changePageRoles(page) {
+            this.roles.current_page = page;
+            this.getResultRoles(page)
+        },
+        buscarRole()
+        {
+            this.listarRoles()
+            this.getResultRoles()
+        },
+        limpiarRole() {
+            this.errores=[]
+            this.role.id=''
+            this.role.name = ''
+        },
+        limpiarRole() {
+            this.errores=[]
+            this.role.id=''
+            this.role.name = ''
+        },
+        nuevoRole()
+        {
+            this.limpiarRole()
+            this.role.estadoCrud='nuevo'
+            $('#modal-role-title').html('Nuevo Rol')        
+            $('#modal-role').modal('show')
+        },
+        guardarRole() {
+            axios.post('role',this.role)
+            .then((respuesta) =>{
+                if(respuesta.data.ok==1)
+                {
+                    Toast.fire({icon:'success','title' : respuesta.data.mensaje})
+                    $('#modal-role').modal('hide')
+                    this.errores=[]
+                    this.listarRolesting()
+                }   
+            })
+            .catch((errors) => {
+                if(response = errors.response) {
+                    this.errores = response.data.errors
+                    //console.clear()
+                }
+            })
+        },
+        mostrarDatosRole(role)
+        {
+            this.limpiarRole()
+            axios.get('role-mostrar?id='+role)
+            .then((respuesta) =>{
+                let rol = respuesta.data
+                this.role.id = rol.id
+                this.role.name = rol.name
+                             
+            })
+        },
+        mostrarRole(role)
+        {
+            this.mostrarDatosRole(role)
+            this.role.estadoCrud = 'mostrar'  
+            $('#modal-role-title').html('Mostrar Role')        
+            $('#modal-role').modal('show')
+        },
+        editarRole(role)
+        {
+            this.mostrarDatosPermiso(role)
+            this.role.estadoCrud = 'editar'  
+            $('#modal-role-title').html('Editar Role')        
+            $('#modal-role').modal('show')
+        },
+        eliminarRole(role)
+        {
+            Swal.fire({
+                title:"ROLES",
+                text:'¿Está Seguro de Eliminar el Rol?',
+                icon:"question",
+                showCancelButton: true,
+                confirmButtonText:"<i class='fas fa-check'></i> Si",
+                confirmButtonColor:"#6610f2",
+                cancelButtonText:"<i class='fas fa-times'></i> No",
+                cancelButtonColor:"#e3342f"
+            }).then( (response) => {
+                if(response.value) {
+                    axios.post('role-eliminar',{id:role})
+                    .then((response) => (
+                        swal.fire({
+                            icon : 'success',
+                            title : 'Roles',
+                            text : response.data.mensaje,
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor:"#1abc9c",
+                        }).then(respuesta => {
+                            if(respuesta.value) {
+                                this.listarRolesting()
+                            }
+                        })
+                    ))
+                    .catch((errors) => {
+                        if(response = errors.response) {
+                            this.errores = response.data.errors
+                            swal.fire({
+                                icon : 'error',
+                                title : 'Roles',
+                                text : this.errores,
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor:"#1abc9c",
+                            })
+                        }
+                    })
+                }
+            }).catch(error => {
+                swal.showValidationError(
+                    `Ocurrió un Error: ${error.response.status}`
+                )
+            })
+        },
     }
 })

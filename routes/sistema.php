@@ -39,4 +39,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('permiso-role-modelos',[PermissionRoleController::class,'mostrarModelos'])->name('permiso-role.modelos');
     Route::get('permiso-role-permisos',[PermissionRoleController::class,'mostrarRolePermisos'])->name('permiso-role.permisos');
     Route::post('permiso-role-guardar',[PermissionRoleController::class,'store'])->name('permiso-role.guardar');
+
+    Route::get('role-mostrar', [RoleController::class,'show'])->name('role.mostrar');
+    Route::post('role-eliminar',[RoleController::class,'destroy'])->name('role.eliminar');
 });

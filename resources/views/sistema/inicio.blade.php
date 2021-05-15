@@ -21,6 +21,11 @@
 @section('content')
 <div class="card card-outline card-primary">
     <div class="card-header">
+        @can('roles.inicio')
+        <button type="button" class="btn bg-orange" @click="cambiarVista('Roles')">
+            <i class="fas fa-user-shield"></i><br>Roles
+        </button>
+        @endcan
         <button type="button" class="btn btn-primary" @click="cambiarVista('Usuarios')">
             <i class="fas fa-users"></i><br>Usuarios
         </button>
@@ -38,7 +43,8 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body" id="detalle-inicio">
-        <template v-if="vista=='Usuarios'">@include('sistema.usuario.inicio')</template>
+        <template v-if="vista=='Roles'">@include('sistema.role.inicio')</template>
+        <template v-else-if="vista=='Usuarios'">@include('sistema.usuario.inicio')</template>
         <template v-else-if="vista=='Trabajadores'">@include('sistema.trabajador.inicio')</template>
         <template v-else-if="vista=='Permisos'">@include('sistema.permission.inicio')</template>
         <template v-else-if="vista=='Permisos/Roles'">@include('sistema.permission-role.inicio')</template>

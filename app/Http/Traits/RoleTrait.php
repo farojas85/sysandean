@@ -7,22 +7,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
+use Spatie\Permission\Models\Role;
 
-use Spatie\Permission\Models\Permission;
 
-trait PermissionTrait
+trait RoleTrait
 {
 
-    public function listar(Request $request)
+    public function todos(Request $request)
     {
         $buscar = mb_strtoupper($request->buscar);
-        return Permission::where(function($query) use($buscar){
+        return Role::where(function($query) use($buscar){
                         $query->where(DB::Raw("upper(name)"),'like','%'.$buscar.'%');
                     })
                     ->paginate($request->pagina);
     }
 
-    public function guardarPermiso(Request $request)
+    public function guardarRole(Request $request)
     {
         $reglas=[
             'name' => 'required',
@@ -36,23 +36,23 @@ trait PermissionTrait
 
         if($request->estadoCrud == 'nuevo')
         {
-            $permission = new Permission();
-            $permission->name = $request->name;
-            $permission->save();
+            $role = new Role();
+            $role->name = $request->name;
+            $role->save();
 
             return response()->json([
                 'ok' => 1,
-                'mensaje' => 'El Permiso ha sido Registrado Satisfactoriamente'
+                'mensaje' => 'El Rol ha sido Registrado Satisfactoriamente'
             ],200);
         }
 
-        $permission = Permission::findOrFail($request->id);
-        $permission->name = $request->name;       
-        $permission->save();
+        $role = Role::findOrFail($request->id);
+        $role->name = $request->name;       
+        $role->save();
 
         return response()->json([
             'ok' => 1,
-            'mensaje' => 'El Permiso fue Modificado Satisfactoriamente'
+            'mensaje' => 'El Rol fue Modificado Satisfactoriamente'
         ],200);
     }
 }

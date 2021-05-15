@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use  Spatie\Permission\Models\Role;
 
+use App\Http\Traits\RoleTrait;
+
 class RoleController extends Controller
 {
+    use RoleTrait;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $this->todos($request);
     }
 
     /**
@@ -35,7 +38,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->guardarRole($request);
     }
 
     /**
@@ -44,9 +47,9 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        return Role::select('id','name','guard_name')->where('id',$request->id)->first();
     }
 
     /**
@@ -78,9 +81,15 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $role = Role::where('id',$request->id)->first();
+        $role->delete();
+
+        return response()->json([
+            'ok' => 1,
+            'mensaje' => 'El Rol fue Eliminado Satisfactoriamente'
+        ],200);
     }
 
     public function listar()
